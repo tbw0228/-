@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>随手记</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+        #inputText {
+            width: 100%;
+            min-height: 200px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+            white-space: pre-wrap;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #records {
+            margin-top: 20px;
+        }
+
+        #recordList li {
+            border: 1px solid #eee;
+            padding: 10px;
+            margin-bottom: 10px;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>随手记</h1>
+    <div id="inputText" contenteditable="true" placeholder="在这里粘贴或输入你的记录内容"></div>
+    <button onclick="saveRecord()">保存记录</button>
+    <div id="records">
+        <h2>已保存的记录</h2>
+        <ul id="recordList"></ul>
+    </div>
+
+    <script>
+        function saveRecord() {
+            var inputText = document.getElementById('inputText');
+            var content = inputText.innerHTML;
+            if (content.trim()!== '') {
+                var recordList = document.getElementById('recordList');
+                var listItem = document.createElement('li');
+                listItem.innerHTML = content;
+                recordList.appendChild(listItem);
+                inputText.innerHTML = '';
+            }
+        }
+    </script>
+</body>
+
+</html>
