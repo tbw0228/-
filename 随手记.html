@@ -12,12 +12,11 @@
         }
 
         #inputText {
-            width: 100%;
-            min-height: 200px;
             border: 1px solid #ccc;
             padding: 10px;
+            min-height: 100px;
             margin-bottom: 10px;
-            white-space: pre-wrap;
+            cursor: text;
         }
 
         button {
@@ -26,6 +25,7 @@
             color: white;
             border: none;
             cursor: pointer;
+            margin-right: 10px;
         }
 
         button:hover {
@@ -35,20 +35,14 @@
         #records {
             margin-top: 20px;
         }
-
-        #recordList li {
-            border: 1px solid #eee;
-            padding: 10px;
-            margin-bottom: 10px;
-            white-space: pre-wrap;
-        }
     </style>
 </head>
 
 <body>
     <h1>随手记</h1>
-    <div id="inputText" contenteditable="true" placeholder="在这里粘贴或输入你的记录内容"></div>
+    <div id="inputText" contenteditable="true" placeholder="在此处粘贴或输入记录"></div>
     <button onclick="saveRecord()">保存记录</button>
+    <button onclick="deleteRecords()">删除所有记录</button>
     <div id="records">
         <h2>已保存的记录</h2>
         <ul id="recordList"></ul>
@@ -56,16 +50,41 @@
 
     <script>
         function saveRecord() {
-            var inputText = document.getElementById('inputText');
-            var content = inputText.innerHTML;
-            if (content.trim()!== '') {
-                var recordList = document.getElementById('recordList');
-                var listItem = document.createElement('li');
-                listItem.innerHTML = content;
-                recordList.appendChild(listItem);
-                inputText.innerHTML = '';
+            const inputText = document.getElementById('inputText');
+            const recordText = inputText.textContent.trim();
+            if (recordText) {
+                const recordList = document.getElementById('recordList');
+                const newRecord = document.createElement('li');
+                newRecord.textContent = recordText;
+                recordList.appendChild(newRecord);
+
+                // 保存到 localStorage
+                let records = JSON.parse(localStorage.getItem('records')) || [];
+                records.push(recordText);
+                localStorage.setItem('records', JSON.stringify(records));
+
+                inputText.textContent = '';
             }
         }
+
+        function deleteRecords() {
+            // 删除 localStorage 中的记录
+            localStorage.removeItem('records');
+            // 清空页面上的记录列表
+            const recordList = document.getElementById('recordList');
+            recordList.innerHTML = '';
+        }
+
+        // 页面加载时从 localStorage 读取记录
+        window.onload = function () {
+            const records = JSON.parse(localStorage.getItem('records')) || [];
+            const recordList = document.getElementById('recordList');
+            records.forEach(recordText => {
+                const newRecord = document.createElement('li');
+                newRecord.textContent = recordText;
+                recordList.appendChild(newRecord);
+            });
+        };
     </script>
 </body>
 
