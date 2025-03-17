@@ -94,6 +94,7 @@
             display: flex;
             align-items: center;
             animation: fadeIn 0.5s ease;
+            position: relative;
         }
 
         @keyframes fadeIn {
@@ -149,6 +150,21 @@
             font-size: 16px;
         }
 
+        /* 记录时间样式 */
+        .record-time {
+            display: none;
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+            font-size: 14px;
+        }
+
+        #recordList li:hover .record-time {
+            display: block;
+        }
+
         /* 底部区域 */
         footer {
             background-color: #333;
@@ -181,16 +197,22 @@
         window.onload = function () {
             var records = JSON.parse(localStorage.getItem('records')) || [];
             var recordList = document.getElementById('recordList');
-            records.forEach(function (record) {
+            // 倒序遍历，将最新的记录显示在前面
+            for (var i = records.length - 1; i >= 0; i--) {
+                var record = records[i];
                 var listItem = document.createElement('li');
                 var checkbox = document.createElement('input');
                 checkbox.type = 'checkbox';
                 listItem.appendChild(checkbox);
                 var recordContent = document.createElement('div');
-                recordContent.innerHTML = record;
+                recordContent.innerHTML = record.content;
                 listItem.appendChild(recordContent);
+                var recordTime = document.createElement('span');
+                recordTime.classList.add('record-time');
+                recordTime.textContent = record.time;
+                listItem.appendChild(recordTime);
                 recordList.appendChild(listItem);
-            });
+            }
         };
 
         function saveRecord() {
@@ -205,12 +227,19 @@
                 var recordContent = document.createElement('div');
                 recordContent.innerHTML = content;
                 listItem.appendChild(recordContent);
-                recordList.appendChild(listItem);
+                var now = new Date();
+                var timeString = now.getFullYear() + '年' + (now.getMonth() + 1) + '月' + now.getDate() + '日' + now.getHours() + ':' + now.getMinutes() + ':' + now.getSeconds();
+                var recordTime = document.createElement('span');
+                recordTime.classList.add('record-time');
+                recordTime.textContent = timeString;
+                listItem.appendChild(recordTime);
+                // 将新记录插入到列表头部
+                recordList.insertBefore(listItem, recordList.firstChild);
                 inputText.innerHTML = '';
 
                 // 更新 localStorage
                 var records = JSON.parse(localStorage.getItem('records')) || [];
-                records.push(content);
+                records.unshift({ content: content, time: timeString });
                 localStorage.setItem('records', JSON.stringify(records));
             }
         }
