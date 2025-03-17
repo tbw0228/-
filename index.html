@@ -5,19 +5,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>记录页面</title>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
     <style>
+        /* 全局样式 */
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            padding: 20px;
-            background-color: #f4f4f9;
-            max-width: 800px;
-            margin: 0 auto;
+            font-family: 'Open Sans', sans-serif;
+            padding: 0;
+            margin: 0;
+            background-color: #f9f9f9;
+            color: #333;
         }
 
-        h1 {
-            color: #333;
+        /* 头部区域 */
+        header {
+            background: linear-gradient(to right, #007BFF, #00b3ff);
+            padding: 20px;
             text-align: center;
-            margin-bottom: 20px;
+        }
+
+        header img {
+            width: 50px;
+            height: 50px;
+        }
+
+        /* 内容区域 */
+        .content {
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
         }
 
         #inputText {
@@ -30,6 +47,18 @@
             background-color: white;
             box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
             border-radius: 5px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        #inputText:focus {
+            border-color: #007BFF;
+            outline: none;
+        }
+
+        .button-group {
+            display: flex;
+            margin-bottom: 20px;
         }
 
         button {
@@ -40,15 +69,30 @@
             cursor: pointer;
             border-radius: 5px;
             margin-right: 10px;
-            transition: background-color 0.3s ease;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            font-size: 16px;
         }
 
         button:hover {
             background-color: #0056b3;
+            transform: scale(1.05);
+        }
+
+        button.delete {
+            background-color: #dc3545;
+        }
+
+        button.delete:hover {
+            background-color: #c82333;
         }
 
         #records {
             margin-top: 30px;
+        }
+
+        #recordList {
+            list-style-type: none;
+            padding: 0;
         }
 
         #recordList li {
@@ -61,24 +105,92 @@
             border-radius: 5px;
             display: flex;
             align-items: center;
+            animation: fadeIn 0.5s ease;
         }
 
-        #recordList li input[type="checkbox"] {
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        #recordList li.deleting {
+            animation: fadeOut 0.5s ease forwards;
+        }
+
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+            to {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+        }
+
+        /* 自定义复选框样式 */
+        input[type="checkbox"] {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #007BFF;
+            border-radius: 3px;
             margin-right: 15px;
+            cursor: pointer;
+            position: relative;
+        }
+
+        input[type="checkbox"]:checked::before {
+            content: '\2713';
+            display: block;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #007BFF;
+            font-size: 16px;
+        }
+
+        /* 底部区域 */
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px;
         }
     </style>
 </head>
 
 <body>
-    <h1></h1>
-    <div id="inputText" contenteditable="true" placeholder="在这里粘贴或输入你的记录内容"></div>
-    <button onclick="saveRecord()">保存记录</button>
-    <button onclick="deleteSelectedRecords()">删除选中记录</button>
-    <button onclick="selectAllRecords()">全选</button>
-    <div id="records">
-        <h2>已保存的记录</h2>
-        <ul id="recordList"></ul>
+    <header>
+        <!-- 这里可以替换为实际的 logo 图片 -->
+        <img src="https://via.placeholder.com/50" alt="Logo">
+    </header>
+    <div class="content">
+        <div id="inputText" contenteditable="true" placeholder="在这里粘贴或输入你的记录内容"></div>
+        <div class="button-group">
+            <button onclick="saveRecord()">保存记录</button>
+            <button class="delete" onclick="deleteSelectedRecords()">删除选中记录</button>
+            <button onclick="selectAllRecords()">全选</button>
+        </div>
+        <div id="records">
+            <h2>已保存的记录</h2>
+            <ul id="recordList"></ul>
+        </div>
     </div>
+    <footer>
+        &copy; 2025 记录页面版权所有 | 联系我们: example@example.com
+    </footer>
 
     <script>
         // 页面加载时从 localStorage 读取记录
@@ -127,16 +239,15 @@
             checkboxes.forEach(function (checkbox, index) {
                 if (!checkbox.checked) {
                     newRecords.push(records[index]);
+                } else {
+                    checkbox.parentNode.classList.add('deleting');
+                    setTimeout(() => {
+                        checkbox.parentNode.remove();
+                    }, 500);
                 }
             });
             // 更新 localStorage
             localStorage.setItem('records', JSON.stringify(newRecords));
-            // 从页面移除选中的记录
-            checkboxes.forEach(function (checkbox) {
-                if (checkbox.checked) {
-                    checkbox.parentNode.remove();
-                }
-            });
         }
 
         function selectAllRecords() {
