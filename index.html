@@ -225,7 +225,7 @@
             try {
                 var inputText = document.getElementById('inputText');
                 var content = inputText.innerHTML;
-                if (content.trim().replace(/<[^>]*>/g, '')!== '') {
+                if (content.trim()!== '') {
                     var recordList = document.getElementById('recordList');
                     var listItem = document.createElement('li');
                     var checkbox = document.createElement('input');
@@ -263,15 +263,19 @@
                 checkboxes.forEach(function (checkbox, index) {
                     if (!checkbox.checked) {
                         newRecords.push(records[index]);
-                    } else {
+                    }
+                });
+                // 更新 localStorage
+                localStorage.setItem('records', JSON.stringify(newRecords));
+                // 移除选中的记录
+                checkboxes.forEach(function (checkbox) {
+                    if (checkbox.checked) {
                         checkbox.parentNode.classList.add('deleting');
                         setTimeout(() => {
                             checkbox.parentNode.remove();
                         }, 500);
                     }
                 });
-                // 更新 localStorage
-                localStorage.setItem('records', JSON.stringify(newRecords));
             } catch (error) {
                 console.error('删除记录时出错:', error);
             }
