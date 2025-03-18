@@ -195,82 +195,98 @@
     <script>
         // 页面加载时从 localStorage 读取记录
         window.onload = function () {
-            var records = JSON.parse(localStorage.getItem('records')) || [];
-            var recordList = document.getElementById('recordList');
-            // 清空原有列表
-            recordList.innerHTML = '';
-            // 倒序遍历记录，将最新记录添加到列表头部
-            for (var i = records.length - 1; i >= 0; i--) {
-                var record = records[i];
-                var listItem = document.createElement('li');
-                var checkbox = document.createElement('input');
-                checkbox.type = 'checkbox';
-                listItem.appendChild(checkbox);
-                var recordContent = document.createElement('div');
-                recordContent.innerHTML = record.content;
-                listItem.appendChild(recordContent);
-                var recordTime = document.createElement('span');
-                recordTime.classList.add('record-time');
-                recordTime..textContent =  = record..time;;
-                listItem..appendChild(recordTime);;
-                recordList..appendChild(listItem);;
+            try {
+                var records = JSON.parse(localStorage.getItem('records')) || [];
+                var recordList = document.getElementById('recordList');
+                // 清空原有列表
+                recordList.innerHTML = '';
+                // 倒序遍历记录，将最新记录添加到列表头部
+                for (var i = records.length - 1; i >= 0; i--) {
+                    var record = records[i];
+                    var listItem = document.createElement('li');
+                    var checkbox = document.createElement('input');
+                    checkbox.type = 'checkbox';
+                    listItem.appendChild(checkbox);
+                    var recordContent = document.createElement('div');
+                    recordContent.innerHTML = record.content;
+                    listItem.appendChild(recordContent);
+                    var recordTime = document.createElement('span');
+                    recordTime.classList.add('record-time');
+                    recordTime.textContent = record.time;
+                    listItem.appendChild(recordTime);
+                    recordList.appendChild(listItem);
+                }
+            } catch (error) {
+                console.error('读取 localStorage 记录时出错:', error);
             }
-        };;
+        };
 
         function saveRecord() {
-            var inputText =  = document..getElementById('inputText');;
-            var content =  = inputText..innerHTML;;
-            if (content..trim()!== !== '') {
-                var recordList =  = document..getElementById('recordList');;
-                var listItem =  = document..createElement('li');;
-                var checkbox =  = document..createElement('input');;
-                checkbox..type =  = 'checkbox';;
-                listItem..appendChild(checkbox);;
-                var recordContent =  = document..createElement('div');;
-                recordContent..innerHTML =  = content;;
-                listItem..appendChild(recordContent);;
-                var now =  = new Date();;
-                var timeString =  = now..getFullYear() +  + '年' +  + (now..getMonth() +  + 1) +  + '月' +  + now..getDate() +  + '日' +  + now..getHours() +  + ':' +  + now..getMinutes() +  + ':' +  + now..getSeconds();;
-                var recordTime =  = document..createElement('span');;
-                recordTime..classList..add('record-time');;
-                recordTime..textContent =  = timeString;;
-                listItem..appendChild(recordTime);;
-                // 将新记录插入到列表头部
-                recordList..insertBefore(listItem, , recordList..firstChild);;
-                inputText..innerHTML =  = '';;
+            try {
+                var inputText = document.getElementById('inputText');
+                var content = inputText.innerHTML;
+                if (content.trim().replace(/<[^>]*>/g, '')!== '') {
+                    var recordList = document.getElementById('recordList');
+                    var listItem = document.createElement('li');
+                    var checkbox = document.createElement('input');
+                    checkbox.type = 'checkbox';
+                    listItem.appendChild(checkbox);
+                    var recordContent = document.createElement('div');
+                    recordContent.innerHTML = content;
+                    listItem.appendChild(recordContent);
+                    var now = new Date();
+                    var timeString = now.getFullYear() + '年' + (now.getMonth() + 1) + '月' + now.getDate() + '日' + now.getHours() + ':' + now.getMinutes() + ':' + now.getSeconds();
+                    var recordTime = document.createElement('span');
+                    recordTime.classList.add('record-time');
+                    recordTime.textContent = timeString;
+                    listItem.appendChild(recordTime);
+                    // 将新记录插入到列表头部
+                    recordList.insertBefore(listItem, recordList.firstChild);
+                    inputText.innerHTML = '';
 
-                // 更新 localStorage
-                var records =  = JSON..parse(localStorage..getItem('records')) ||  || [];;
-                records..unshift({ content: : content, , time: : timeString });;
-                localStorage..setItem('records', , JSON..stringify(records));;
+                    // 更新 localStorage
+                    var records = JSON.parse(localStorage.getItem('records')) || [];
+                    records.unshift({ content: content, time: timeString });
+                    localStorage.setItem('records', JSON.stringify(records));
+                }
+            } catch (error) {
+                console.error('保存记录时出错:', error);
             }
         }
 
         function deleteSelectedRecords() {
-            var recordList =  = document..getElementById('recordList');;
-            var checkboxes =  = recordList..querySelectorAll('input[type="checkbox"]');;
-            varvar recordsrecords = JSONJSON.parseparse(((localStoragelocalStorage.getItemgetItem((('records''records''records'))))) || [[]];
-            var newRecords =  = [];;
-            checkboxes..forEach(function (checkbox, , index) {
-                if (!!checkbox..checked) {
-                    newRecords..push(records[index]);;
-                } else {
-                    checkbox..parentNode..classList..add('deleting');;
-                    setTimeout(() =>  => {
-                        checkbox..parentNode..remove();;
-                    }, , 500);;
-                }
-            });;
-            // 更新 localStorage
-            localStorage..setItem('records', , JSON..stringify(newRecords));;
+            try {
+                var recordList = document.getElementById('recordList');
+                var checkboxes = recordList.querySelectorAll('input[type="checkbox"]');
+                var records = JSON.parse(localStorage.getItem('records')) || [];
+                var newRecords = [];
+                checkboxes.forEach(function (checkbox, index) {
+                    if (!checkbox.checked) {
+                        newRecords.push(records[index]);
+                    } else {
+                        checkbox.parentNode.classList.add('deleting');
+                        setTimeout(() => {
+                            checkbox.parentNode.remove();
+                        }, 500);
+                    }
+                });
+                // 更新 localStorage
+                localStorage.setItem('records', JSON.stringify(newRecords));
+            } catch (error) {
+                console.error('删除记录时出错:', error);
+            }
         }
 
         function selectAllRecords() {
-            var recordList =  = document..getElementById('recordList');;
-            var checkboxes =  = recordList..querySelectorAll('input[type="checkbox"]');;
-            checkboxes..forEach(function (checkbox) {
-                checkbox..checked =  = true;;
-            });;
+            try {
+                var recordList = document.getElementById('recordList');
+                var checkboxes = recordList.querySelectorAll('input[type="checkbox"]');
+                checkboxes.forEach(function (checkbox) {
+                    checkbox.checked = true;
+                });
+            } catch (error) {
+                console.error('全选记录时出错:', error);
+            }
         }
     </script>
 </body>
