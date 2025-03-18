@@ -260,22 +260,24 @@
                 var checkboxes = recordList.querySelectorAll('input[type="checkbox"]');
                 var records = JSON.parse(localStorage.getItem('records')) || [];
                 var newRecords = [];
-                checkboxes.forEach((checkbox, index) => {
+
+                // 遍历页面上的记录项
+                recordList.childNodes.forEach((listItem, index) => {
+                    const checkbox = listItem.querySelector('input[type="checkbox"]');
                     if (!checkbox.checked) {
+                        // 如果未选中，将对应的记录添加到新数组
                         newRecords.push(records[index]);
-                    }
-                });
-                // 更新 localStorage
-                localStorage.setItem('records', JSON.stringify(newRecords));
-                // 移除选中的记录
-                checkboxes.forEach((checkbox) => {
-                    if (checkbox.checked) {
-                        checkbox.parentNode.classList.add('deleting');
+                    } else {
+                        // 如果选中，添加删除动画并移除元素
+                        listItem.classList.add('deleting');
                         setTimeout(() => {
-                            checkbox.parentNode.remove();
+                            listItem.remove();
                         }, 500);
                     }
                 });
+
+                // 更新 localStorage
+                localStorage.setItem('records', JSON.stringify(newRecords));
             } catch (error) {
                 console.error('删除记录时出错:', error);
             }
