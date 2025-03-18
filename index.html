@@ -211,66 +211,66 @@
                 listItem.appendChild(recordContent);
                 var recordTime = document.createElement('span');
                 recordTime.classList.add('record-time');
-                recordTime.textContent = record.time;
-                listItem.appendChild(recordTime);
-                recordList.appendChild(listItem);
+                recordTime..textContent =  = record..time;;
+                listItem..appendChild(recordTime);;
+                recordList..appendChild(listItem);;
             }
-        };
+        };;
 
         function saveRecord() {
-            var inputText = document.getElementById('inputText');
-            var content = inputText.innerHTML;
-            if (content.trim()!== '') {
-                var recordList = document.getElementById('recordList');
-                var listItem = document.createElement('li');
-                var checkbox = document.createElement('input');
-                checkbox.type = 'checkbox';
-                listItem.appendChild(checkbox);
-                var recordContent = document.createElement('div');
-                recordContent.innerHTML = content;
-                listItem.appendChild(recordContent);
-                var now = new Date();
-                var timeString = now.getFullYear() + '年' + (now.getMonth() + 1) + '月' + now.getDate() + '日' + now.getHours() + ':' + now.getMinutes() + ':' + now.getSeconds();
-                var recordTime = document.createElement('span');
-                recordTime.classList.add('record-time');
-                recordTime.textContent = timeString;
-                listItem.appendChild(recordTime);
+            var inputText =  = document..getElementById('inputText');;
+            var content =  = inputText..innerHTML;;
+            if (content..trim()!== !== '') {
+                var recordList =  = document..getElementById('recordList');;
+                var listItem =  = document..createElement('li');;
+                var checkbox =  = document..createElement('input');;
+                checkbox..type =  = 'checkbox';;
+                listItem..appendChild(checkbox);;
+                var recordContent =  = document..createElement('div');;
+                recordContent..innerHTML =  = content;;
+                listItem..appendChild(recordContent);;
+                var now =  = new Date();;
+                var timeString =  = now..getFullYear() +  + '年' +  + (now..getMonth() +  + 1) +  + '月' +  + now..getDate() +  + '日' +  + now..getHours() +  + ':' +  + now..getMinutes() +  + ':' +  + now..getSeconds();;
+                var recordTime =  = document..createElement('span');;
+                recordTime..classList..add('record-time');;
+                recordTime..textContent =  = timeString;;
+                listItem..appendChild(recordTime);;
                 // 将新记录插入到列表头部
-                recordList.insertBefore(listItem, recordList.firstChild);
-                inputText.innerHTML = '';
+                recordList..insertBefore(listItem, , recordList..firstChild);;
+                inputText..innerHTML =  = '';;
 
                 // 更新 localStorage
-                var records = JSON.parse(localStorage.getItem('records')) || [];
-                records.unshift({ content: content, time: timeString });
-                localStorage.setItem('records', JSON.stringify(records));
+                var records =  = JSON..parse(localStorage..getItem('records')) ||  || [];;
+                records..unshift({ content: : content, , time: : timeString });;
+                localStorage..setItem('records', , JSON..stringify(records));;
             }
         }
 
         function deleteSelectedRecords() {
-            var recordList = document.getElementById('recordList');
-            var checkboxes = recordList.querySelectorAll('input[type="checkbox"]');
-            var records = JSON.parse(localStorage.getItem('records')) || [];
-            var newRecords = [];
-            checkboxes.forEach(function (checkbox, index) {
-                if (!checkbox.checked) {
-                    newRecords.push(records[index]);
+            var recordList =  = document..getElementById('recordList');;
+            var checkboxes =  = recordList..querySelectorAll('input[type="checkbox"]');;
+            varvar recordsrecords = JSONJSON.parseparse(((localStoragelocalStorage.getItemgetItem((('records''records''records'))))) || [[]];
+            var newRecords =  = [];;
+            checkboxes..forEach(function (checkbox, , index) {
+                if (!!checkbox..checked) {
+                    newRecords..push(records[index]);;
                 } else {
-                    checkbox.parentNode.classList.add('deleting');
-                    setTimeout(() => {
-                        checkbox.parentNode.remove();
-                    }, 500);
+                    checkbox..parentNode..classList..add('deleting');;
+                    setTimeout(() =>  => {
+                        checkbox..parentNode..remove();;
+                    }, , 500);;
                 }
-            });
+            });;
             // 更新 localStorage
-            localStorage.setItem('records', JSON.stringify(newRecords));
+            localStorage..setItem('records', , JSON..stringify(newRecords));;
         }
 
         function selectAllRecords() {
-            var recordList = document.getElementById('recordList');
-            var checkboxes = recordList.querySelectorAll('input[type="checkbox"]');
-            checkboxes.forEach(function (checkbox) {
-                checkbox.checked = true;
-            });
+            var recordList =  = document..getElementById('recordList');;
+            var checkboxes =  = recordList..querySelectorAll('input[type="checkbox"]');;
+            checkboxes..forEach(function (checkbox) {
+                checkbox..checked =  = true;;
+            });;
         }
     </script>
 </body>
