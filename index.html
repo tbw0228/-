@@ -213,31 +213,6 @@
         // 初始化 BroadcastChannel
         const channel = new BroadcastChannel('record-sync');
 
-        // 监听其他标签页的消息
-        channel.onmessage = function (event) {
-            if (event.data.action === 'updateRecords') {
-                const records = event.data.records;
-                const recordList = document.getElementById('recordList');
-                recordList.innerHTML = '';
-                for (let i = records.length - 1; i >= 0; i--) {
-                    const record = records[i];
-                    const listItem = document.createElement('li');
-                    const checkbox = document.createElement('input');
-                    checkbox.type = 'checkbox';
-                    listItem.appendChild(checkbox);
-                    const recordContent = document.createElement('div');
-                    // 将 Markdown 转换为 HTML
-                    recordContent.innerHTML = marked.parse(record.content);
-                    listItem.appendChild(recordContent);
-                    const recordTime = document.createElement('span');
-                    recordTime.classList.add('record-time');
-                    recordTime.textContent = record.time;
-                    listItem.appendChild(recordTime);
-                    recordList.appendChild(listItem);
-                }
-            }
-        };
-
         // 页面加载时从 localStorage 读取记录
         window.onload = function () {
             try {
@@ -267,8 +242,7 @@
 
         function saveRecord() {
             try {
-                const inputText = document.getElementById('inputText');
-                const content = inputText.innerHTML;
+                const content = document.getElementById('inputText').innerHTML;
                 if (content.trim()!== '') {
                     const recordList = document.getElementById('recordList');
                     const listItem = document.createElement('li');
@@ -286,7 +260,7 @@
                     recordTime.textContent = timeString;
                     listItem.appendChild(recordTime);
                     recordList.insertBefore(listItem, recordList.firstChild);
-                    inputText.innerHTML = '';
+                    document.getElementById('inputText').innerHTML = '';
 
                     // 更新 localStorage
                     const records = JSON.parse(localStorage.getItem('records')) || [];
@@ -346,6 +320,32 @@
                 console.error('全选记录时出错:', error);
             }
         }
+
+        // 监听其他标签页的消息
+        channel.onmessage = function (event) {
+            if (event.data.action === 'updateRecords') {
+                const records = event.data.records;
+                localStorage.setItem('records', JSON.stringify(records));
+                const recordList = document.getElementById('recordList');
+                recordList.innerHTML = '';
+                for (let i = records.length - 1; i >= 0; i--) {
+                    const record = records[i];
+                    const listItem = document.createElement('li');
+                    const checkbox = document.createElement('input');
+                    checkbox.type = 'checkbox';
+                    listItem.appendChild(checkbox);
+                    const recordContent = document.createElement('div');
+                    // 将 Markdown 转换为 HTML
+                    recordContent.innerHTML = marked.parse(record.content);
+                    listItem.appendChild(recordContent);
+                    const recordTime = document.createElement('span');
+                    recordTime.classList.add('record-time');
+                    recordTime.textContent = record.time;
+                    listItem.appendChild(recordTime);
+                    recordList.appendChild(listItem);
+                }
+            }
+        };
     </script>
 </body>
 
