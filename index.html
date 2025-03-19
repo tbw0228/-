@@ -219,7 +219,7 @@
                 const records = JSON.parse(localStorage.getItem('records')) || [];
                 const recordList = document.getElementById('recordList');
                 recordList.innerHTML = '';
-                for (let i = records.length - 1; i >= 0; i--) {
+                for (let i = 0; i < records.length; i++) {
                     const record = records[i];
                     const listItem = document.createElement('li');
                     const checkbox = document.createElement('input');
@@ -259,12 +259,12 @@
                     recordTime.classList.add('record-time');
                     recordTime.textContent = timeString;
                     listItem.appendChild(recordTime);
-                    recordList.insertBefore(listItem, recordList.firstChild);
+                    recordList.appendChild(listItem);
                     document.getElementById('inputText').innerHTML = '';
 
                     // 更新 localStorage
                     const records = JSON.parse(localStorage.getItem('records')) || [];
-                    records.unshift({ content: content, time: timeString });
+                    records.push({ content: content, time: timeString });
                     localStorage.setItem('records', JSON.stringify(records));
 
                     // 广播更新消息
@@ -328,7 +328,7 @@
                 localStorage.setItem('records', JSON.stringify(records));
                 const recordList = document.getElementById('recordList');
                 recordList.innerHTML = '';
-                for (let i = records.length - 1; i >= 0; i--) {
+                for (let i = 0; i < records.length; i++) {
                     const record = records[i];
                     const listItem = document.createElement('li');
                     const checkbox = document.createElement('input');
