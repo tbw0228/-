@@ -25,20 +25,6 @@
             margin: 0 auto;
             display: flex;
             flex-direction: column;
-            height: 100vh;
-        }
-
-        /* 上方固定区域 */
-        .fixed-top {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            background-color: #f9f9f9;
-            padding: 20px;
-            max-width: 800px;
-            margin: 0 auto;
-            z-index: 1;
         }
 
         #inputText {
@@ -92,9 +78,6 @@
 
         #records {
             margin-top: 30px;
-            margin-top: calc(20px + 200px + 20px + 50px); /* 根据上方内容高度调整 */
-            height: calc(100vh - 20px - 200px - 20px - 50px - 40px); /* 根据上方内容高度和底部 footer 高度调整 */
-            overflow-y: auto;
         }
 
         #recordList {
@@ -194,24 +177,61 @@
             bottom: 0;
             width: 100%;
         }
+
+        /* 缩略图样式 */
+        .thumbnail {
+            max-width: 200px;
+            max-height: 200px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .thumbnail:hover {
+            transform: scale(1.05);
+        }
+
+        /* 放大图片样式 */
+        .full-size {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            max-width: 90%;
+            max-height: 90%;
+            z-index: 999;
+            background-color: white;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s ease;
+        }
+
+        /* 遮罩层 */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 998;
+            display: none;
+        }
     </style>
 </head>
 
 <body>
     <div class="content">
-        <div class="fixed-top">
-            <div id="inputText" contenteditable="true" placeholder="在这里粘贴或输入你的 Markdown 记录内容"></div>
-            <div class="button-group">
-                <button onclick="saveRecord()">保存记录</button>
-                <button class="delete" onclick="deleteSelectedRecords()">删除选中记录</button>
-                <button onclick="selectAllRecords()">全选</button>
-            </div>
+        <div id="inputText" contenteditable="true" placeholder="在这里粘贴或输入你的 Markdown 记录内容"></div>
+        <div class="button-group">
+            <button onclick="saveRecord()">保存记录</button>
+            <button class="delete" onclick="deleteSelectedRecords()">删除选中记录</button>
+            <button onclick="selectAllRecords()">全选</button>
         </div>
         <div id="records">
             <h2>已保存的记录</h2>
             <ul id="recordList"></ul>
         </div>
     </div>
+    <div class="overlay" id="overlay" onclick="closeFullSize()"></div>
     <footer>
         © 2025 记录页面
     </footer>
@@ -247,6 +267,13 @@
                     const recordContent = document.createElement('div');
                     // 将 Markdown 转换为 HTML
                     recordContent.innerHTML = marked.parse(record.content);
+                    // 处理图片点击事件
+                    recordContent.querySelectorAll('img').forEach(img => {
+                        img.classList.add('thumbnail');
+                        img.addEventListener('click', function () {
+                            openFullSize(this);
+                        });
+                    });
                     listItem.appendChild(recordContent);
                     const recordTime = document.createElement('span');
                     recordTime.classList.add('record-time');
@@ -258,6 +285,83 @@
                 console.error('读取 localStorage 记录时出错:', error);
             }
         };
+
+        // 监听粘贴事件
+        const inputText = document.getElementById('inputText');
+        inputText.addEventListener('paste', async function (e) {
+            const items = e.clipboardData.items;
+            for (let i = 0; i < items.length; i++) {
+                const item = items[i];
+                if (item.type.indexOf('image')!== -1) {
+                    e.preventDefault(); // 阻止默认粘贴行为
+                    
+                    const blob = await item.asFile();
+                    const reader = new FileReader();
+                    reader.onloadend = function () {
+                        const dataURL = reader.result;
+                        createThumbnail(dataURL, 200, 200, function(thumbnailDataURL) {
+                            const img = document.createElement('img');
+                            img.src = thumbnailDataURL;
+                            img.dataset.fullSize = dataURL;
+                            img.classList.add('thumbnail');
+                            img.addEventListener('click', function() {
+                                openFullSize(this);
+                            });
+                            
+                            // 将光标位置获取并插入图片
+                            const selection = window.getSelection();
+                            if (selection.rangeCount > 0) {
+                                const range = selection.getRangeAt(0);
+                                range.insertNode(img);
+                                
+                                // 移动光标到图片后面
+                                range.setStartAfter(img);
+                                range.collapse(true);
+                                selection.removeAllRanges();
+                                selection.addRange(range);
+                            } else {
+                                inputText.appendChild(img);
+                            }
+                        });
+                    };
+                    reader.readAsDataURL(blob);
+                    break;
+                }
+            }
+        });
+
+        // 创建缩略图（异步版本）
+        function createThumbnail(dataURL, maxWidth, maxHeight, callback) {
+            const img = new Image();
+            img.src = dataURL;
+            
+            img.onload = function() {
+                let width = img.width;
+                let height = img.height;
+                
+                // 计算等比例缩放后的尺寸
+                if (width > maxWidth) {
+                    height = height * (maxWidth / width);
+                    width = maxWidth;
+                }
+                
+                if (height > maxHeight) {
+                    width = width * (maxHeight / height);
+                    height = maxHeight;
+                }
+                
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                canvas.width = width;
+                canvas.height = height;
+                
+                // 绘制高质量缩略图
+                ctx.drawImage(img, 0, 0, width, height);
+                
+                // 返回缩略图的DataURL
+                callback(canvas.toDataURL());
+            };
+        }
 
         function saveRecord() {
             try {
@@ -271,6 +375,13 @@
                     const recordContent = document.createElement('div');
                     // 将 Markdown 转换为 HTML
                     recordContent.innerHTML = marked.parse(content);
+                    // 处理图片点击事件
+                    recordContent.querySelectorAll('img').forEach(img => {
+                        img.classList.add('thumbnail');
+                        img.addEventListener('click', function () {
+                            openFullSize(this);
+                        });
+                    });
                     listItem.appendChild(recordContent);
                     const now = new Date();
                     const timeString = now.getFullYear() + '年' + (now.getMonth() + 1) + '月' + now.getDate() + '日' + now.getHours() + ':' + now.getMinutes() + ':' + now.getSeconds();
@@ -340,6 +451,42 @@
             }
         }
 
+        // 打开大图查看
+        function openFullSize(img) {
+            const fullSizeImg = img.cloneNode();
+            fullSizeImg.classList.remove('thumbnail');
+            fullSizeImg.classList.add('full-size');
+            
+            // 如果有保存的原始尺寸，则使用原始尺寸
+            if (img.dataset.fullSize) {
+                fullSizeImg.src = img.dataset.fullSize;
+            }
+            
+            // 移除现有的大图并添加新的
+            const existingFullSize = document.querySelector('.full-size');
+            if (existingFullSize) {
+                existingFullSize.parentNode.removeChild(existingFullSize);
+            }
+            
+            document.body.appendChild(fullSizeImg);
+            document.getElementById('overlay').style.display = 'block';
+            
+            // 添加点击关闭事件
+            fullSizeImg.addEventListener('click', function(e) {
+                e.stopPropagation(); // 防止事件冒泡到遮罩层
+                closeFullSize();
+            });
+        }
+
+        // 关闭大图查看
+        function closeFullSize() {
+            const fullSizeImg = document.querySelector('.full-size');
+            if (fullSizeImg) {
+                fullSizeImg.parentNode.removeChild(fullSizeImg);
+            }
+            document.getElementById('overlay').style.display = 'none';
+        }
+
         // 监听其他标签页的消息
         channel.onmessage = function (event) {
             if (event.data.action === 'updateRecords') {
@@ -356,6 +503,13 @@
                     const recordContent = document.createElement('div');
                     // 将 Markdown 转换为 HTML
                     recordContent.innerHTML = marked.parse(record.content);
+                    // 处理图片点击事件
+                    recordContent.querySelectorAll('img').forEach(img => {
+                        img.classList.add('thumbnail');
+                        img.addEventListener('click', function () {
+                            openFullSize(this);
+                        });
+                    });
                     listItem.appendChild(recordContent);
                     const recordTime = document.createElement('span');
                     recordTime.classList.add('record-time');
