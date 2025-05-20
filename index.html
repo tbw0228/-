@@ -16,9 +16,6 @@
             margin: 0;
             background-color: #f9f9f9;
             color: #333;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
         }
 
         /* 内容区域 */
@@ -28,16 +25,6 @@
             margin: 0 auto;
             display: flex;
             flex-direction: column;
-            flex: 1;
-        }
-
-        .fixed-area {
-            position: sticky;
-            top: 0;
-            background-color: #f9f9f9;
-            padding: 20px 0;
-            z-index: 100;
-            margin-bottom: 15px;
         }
 
         #inputText {
@@ -52,7 +39,6 @@
             border-radius: 5px;
             font-size: 16px;
             transition: border-color 0.3s ease;
-            overflow: auto;
         }
 
         #inputText:focus {
@@ -75,8 +61,6 @@
             margin-right: 10px;
             transition: background-color 0.3s ease, transform 0.2s ease;
             font-size: 16px;
-            display: flex;
-            align-items: center;
         }
 
         button:hover {
@@ -92,30 +76,13 @@
             background-color: #c82333;
         }
 
-        button i {
-            margin-right: 5px;
-        }
-
         #records {
-            margin-top: 15px;
-            flex: 1;
-        }
-
-        #records h2 {
-            margin-top: 0;
-        }
-
-        #recordListContainer {
-            max-height: calc(100vh - 350px);
-            overflow-y: auto;
-            padding-right: 5px;
-            margin-right: -5px;
+            margin-top: 30px;
         }
 
         #recordList {
             list-style-type: none;
             padding: 0;
-            margin: 0;
         }
 
         #recordList li {
@@ -127,15 +94,9 @@
             box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
             border-radius: 5px;
             display: flex;
-            align-items: flex-start;
+            align-items: center;
             animation: fadeIn 0.5s ease;
             position: relative;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
-
-        #recordList li:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
         }
 
         @keyframes fadeIn {
@@ -178,8 +139,6 @@
             margin-right: 15px;
             cursor: pointer;
             position: relative;
-            flex-shrink: 0;
-            top: 2px;
         }
 
         input[type="checkbox"]:checked::before {
@@ -198,7 +157,8 @@
             display: none;
             position: absolute;
             right: 15px;
-            top: 15px;
+            top: 50%;
+            transform: translateY(-50%);
             color: #999;
             font-size: 14px;
         }
@@ -213,7 +173,9 @@
             color: white;
             text-align: center;
             padding: 10px;
-            margin-top: 20px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
         }
 
         /* 缩略图样式 */
@@ -221,40 +183,6 @@
             max-width: 200px;
             max-height: 200px;
             cursor: pointer;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            border-radius: 4px;
-            margin: 5px 0;
-        }
-
-        .thumbnail:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-        }
-
-        /* 图片加载中样式 */
-        .image-loading {
-            position: relative;
-            display: inline-block;
-            background-color: #f0f0f0;
-            border-radius: 4px;
-            overflow: hidden;
-        }
-
-        .image-loading::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-            animation: loading 1.5s infinite;
-        }
-
-        @keyframes loading {
-            100% {
-                left: 100%;
-            }
         }
 
         /* 放大图片样式 */
@@ -268,69 +196,23 @@
             z-index: 999;
             background-color: white;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-            transition: transform 0.3s ease;
-            border-radius: 4px;
-            padding: 10px;
-        }
-
-        /* 遮罩层 */
-        .overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.7);
-            z-index: 998;
-            display: none;
-            cursor: pointer;
-        }
-
-        /* 自定义滚动条 */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: #f1f1f1;
-            border-radius: 4px;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: #c1c1c1;
-            border-radius: 4px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: #a1a1a1;
         }
     </style>
 </head>
 
 <body>
     <div class="content">
-        <div class="fixed-area">
-            <div id="inputText" contenteditable="true" placeholder="在这里粘贴或输入你的 Markdown 记录内容"></div>
-            <div class="button-group">
-                <button onclick="saveRecord()">
-                    <i class="fa fa-save"></i> 保存记录
-                </button>
-                <button class="delete" onclick="deleteSelectedRecords()">
-                    <i class="fa fa-trash"></i> 删除选中记录
-                </button>
-                <button onclick="selectAllRecords()">
-                    <i class="fa fa-check-square"></i> 全选
-                </button>
-            </div>
+        <div id="inputText" contenteditable="true" placeholder="在这里粘贴或输入你的 Markdown 记录内容"></div>
+        <div class="button-group">
+            <button onclick="saveRecord()">保存记录</button>
+            <button class="delete" onclick="deleteSelectedRecords()">删除选中记录</button>
+            <button onclick="selectAllRecords()">全选</button>
         </div>
         <div id="records">
             <h2>已保存的记录</h2>
-            <div id="recordListContainer">
-                <ul id="recordList"></ul>
-            </div>
+            <ul id="recordList"></ul>
         </div>
     </div>
-    <div class="overlay" id="overlay" onclick="closeFullSize()"></div>
     <footer>
         © 2025 记录页面
     </footer>
@@ -355,216 +237,123 @@
         window.onload = function () {
             try {
                 const records = JSON.parse(localStorage.getItem('records')) || [];
-                renderRecords(records);
+                const recordList = document.getElementById('recordList');
+                recordList.innerHTML = '';
+                for (let i = 0; i < records.length; i++) {
+                    const record = records[i];
+                    const listItem = document.createElement('li');
+                    const checkbox = document.createElement('input');
+                    checkbox.type = 'checkbox';
+                    listItem.appendChild(checkbox);
+                    const recordContent = document.createElement('div');
+                    // 将 Markdown 转换为 HTML
+                    recordContent.innerHTML = marked.parse(record.content);
+                    // 处理图片点击事件
+                    recordContent.querySelectorAll('img').forEach(img => {
+                        img.classList.add('thumbnail');
+                        img.addEventListener('click', function () {
+                            this.classList.toggle('full-size');
+                        });
+                    });
+                    listItem.appendChild(recordContent);
+                    const recordTime = document.createElement('span');
+                    recordTime.classList.add('record-time');
+                    recordTime.textContent = record.time;
+                    listItem.appendChild(recordTime);
+                    recordList.appendChild(listItem);
+                }
             } catch (error) {
                 console.error('读取 localStorage 记录时出错:', error);
-                showNotification('加载记录失败', 'error');
             }
         };
-
-        // 渲染记录列表
-        function renderRecords(records) {
-            const recordList = document.getElementById('recordList');
-            recordList.innerHTML = '';
-            
-            if (records.length === 0) {
-                const emptyItem = document.createElement('li');
-                emptyItem.className = 'empty-record';
-                emptyItem.innerHTML = '<div class="text-center w-full py-10 text-gray-500">暂无记录</div>';
-                recordList.appendChild(emptyItem);
-                return;
-            }
-            
-            for (let i = 0; i < records.length; i++) {
-                const record = records[i];
-                const listItem = document.createElement('li');
-                const checkbox = document.createElement('input');
-                checkbox.type = 'checkbox';
-                listItem.appendChild(checkbox);
-                
-                const recordContent = document.createElement('div');
-                // 将 Markdown 转换为 HTML
-                recordContent.innerHTML = marked.parse(record.content);
-                
-                // 处理图片点击事件
-                recordContent.querySelectorAll('img').forEach(img => {
-                    img.classList.add('thumbnail');
-                    img.addEventListener('click', function () {
-                        openFullSize(this);
-                    });
-                    
-                    // 添加图片加载状态
-                    img.classList.add('image-loading');
-                    img.onload = function() {
-                        img.classList.remove('image-loading');
-                    };
-                });
-                
-                listItem.appendChild(recordContent);
-                
-                const recordTime = document.createElement('span');
-                recordTime.classList.add('record-time');
-                recordTime.textContent = record.time;
-                listItem.appendChild(recordTime);
-                
-                recordList.appendChild(listItem);
-            }
-        }
 
         // 监听粘贴事件
         const inputText = document.getElementById('inputText');
         inputText.addEventListener('paste', async function (e) {
             const items = e.clipboardData.items;
-            let foundImage = false;
-            
             for (let i = 0; i < items.length; i++) {
                 const item = items[i];
                 if (item.type.indexOf('image')!== -1) {
-                    e.preventDefault(); // 阻止默认粘贴行为
-                    foundImage = true;
-                    
-                    try {
-                        // 获取文件对象
-                        const blob = await new Promise((resolve, reject) => {
-                            const file = item.getAsFile();
-                            if (file) {
-                                resolve(file);
-                            } else {
-                                reject(new Error('无法获取文件对象'));
-                            }
-                        });
-                        
-                        // 读取文件内容
-                        const reader = new FileReader();
-                        reader.onload = function (event) {
-                            const dataURL = event.target.result;
-                            createThumbnail(dataURL, 200, 200, function(thumbnailDataURL) {
-                                insertImageIntoEditor(thumbnailDataURL, dataURL);
-                            });
-                        };
-                        
-                        reader.onerror = function (error) {
-                            console.error('读取文件时出错:', error);
-                            showNotification('插入图片失败', 'error');
-                        };
-                        
-                        reader.readAsDataURL(blob);
-                    } catch (error) {
-                        console.error('处理粘贴图片时出错:', error);
-                        showNotification('插入图片失败', 'error');
-                    }
-                    
+                    const blob = await item.asFile();
+                    const reader = new FileReader();
+                    reader.onloadend = function () {
+                        const dataURL = reader.result;
+                        const thumbnailDataURL = createThumbnail(dataURL, 200, 200);
+                        const img = document.createElement('img');
+                        img.src = thumbnailDataURL;
+                        img.dataset.fullSize = dataURL;
+                        inputText.appendChild(img);
+                    };
+                    reader.readAsDataURL(blob);
                     break;
                 }
             }
-            
-            // 如果没有找到图片，允许默认粘贴行为
-            if (!foundImage) {
-                return true;
-            }
         });
 
-        // 在编辑器中插入图片
-        function insertImageIntoEditor(thumbnailDataURL, fullSizeDataURL) {
-            const img = document.createElement('img');
-            img.src = thumbnailDataURL;
-            img.dataset.fullSize = fullSizeDataURL;
-            img.classList.add('thumbnail', 'image-loading');
-            img.addEventListener('click', function() {
-                openFullSize(this);
-            });
-            
-            img.onload = function() {
-                img.classList.remove('image-loading');
-            };
-            
-            // 将光标位置获取并插入图片
-            const selection = window.getSelection();
-            if (selection.rangeCount > 0) {
-                const range = selection.getRangeAt(0);
-                range.insertNode(img);
-                
-                // 移动光标到图片后面
-                range.setStartAfter(img);
-                range.collapse(true);
-                selection.removeAllRanges();
-                selection.addRange(range);
-            } else {
-                inputText.appendChild(img);
-            }
-        }
-
-        // 创建缩略图（异步版本）
-        function createThumbnail(dataURL, maxWidth, maxHeight, callback) {
+        // 创建缩略图
+        function createThumbnail(dataURL, maxWidth, maxHeight) {
             const img = new Image();
             img.src = dataURL;
-            
-            img.onload = function() {
-                let width = img.width;
-                let height = img.height;
-                
-                // 计算等比例缩放后的尺寸
-                if (width > maxWidth) {
-                    height = height * (maxWidth / width);
-                    width = maxWidth;
-                }
-                
-                if (height > maxHeight) {
-                    width = width * (maxHeight / height);
-                    height = maxHeight;
-                }
-                
-                const canvas = document.createElement('canvas');
-                const ctx = canvas.getContext('2d');
-                canvas.width = width;
-                canvas.height = height;
-                
-                // 绘制高质量缩略图
-                ctx.drawImage(img, 0, 0, width, height);
-                
-                // 返回缩略图的DataURL
-                callback(canvas.toDataURL());
-            };
-            
-            img.onerror = function(error) {
-                console.error('创建缩略图时出错:', error);
-                showNotification('处理图片失败', 'error');
-            };
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            let width = img.width;
+            let height = img.height;
+            if (width > maxWidth) {
+                height = height * (maxWidth / width);
+                width = maxWidth;
+            }
+            if (height > maxHeight) {
+                width = width * (maxHeight / height);
+                height = maxHeight;
+            }
+            canvas.width = width;
+            canvas.height = height;
+            ctx.drawImage(img, 0, 0, width, height);
+            return canvas.toDataURL();
         }
 
         function saveRecord() {
             try {
                 const content = document.getElementById('inputText').innerHTML;
-                if (content.trim() === '') {
-                    showNotification('记录内容不能为空', 'warning');
-                    return;
+                if (content.trim()!== '') {
+                    const recordList = document.getElementById('recordList');
+                    const listItem = document.createElement('li');
+                    const checkbox = document.createElement('input');
+                    checkbox.type = 'checkbox';
+                    listItem.appendChild(checkbox);
+                    const recordContent = document.createElement('div');
+                    // 将 Markdown 转换为 HTML
+                    recordContent.innerHTML = marked.parse(content);
+                    // 处理图片点击事件
+                    recordContent.querySelectorAll('img').forEach(img => {
+                        img.classList.add('thumbnail');
+                        img.addEventListener('click', function () {
+                            this.classList.toggle('full-size');
+                        });
+                    });
+                    listItem.appendChild(recordContent);
+                    const now = new Date();
+                    const timeString = now.getFullYear() + '年' + (now.getMonth() + 1) + '月' + now.getDate() + '日' + now.getHours() + ':' + now.getMinutes() + ':' + now.getSeconds();
+                    const recordTime = document.createElement('span');
+                    recordTime.classList.add('record-time');
+                    recordTime.textContent = timeString;
+                    listItem.appendChild(recordTime);
+                    recordList.appendChild(listItem);
+                    document.getElementById('inputText').innerHTML = '';
+
+                    // 更新 localStorage
+                    const records = JSON.parse(localStorage.getItem('records')) || [];
+                    records.push({ content: content, time: timeString });
+                    localStorage.setItem('records', JSON.stringify(records));
+
+                    // 广播更新消息
+                    channel.postMessage({
+                        action: 'updateRecords',
+                        records: records
+                    });
                 }
-                
-                const now = new Date();
-                const timeString = now.getFullYear() + '年' + (now.getMonth() + 1) + '月' + now.getDate() + '日' + 
-                                   now.getHours() + ':' + now.getMinutes() + ':' + now.getSeconds();
-                
-                // 更新 localStorage
-                const records = JSON.parse(localStorage.getItem('records')) || [];
-                records.push({ content: content, time: timeString });
-                localStorage.setItem('records', JSON.stringify(records));
-                
-                // 渲染记录列表
-                renderRecords(records);
-                
-                // 清空输入框
-                document.getElementById('inputText').innerHTML = '';
-                
-                // 广播更新消息
-                channel.postMessage({
-                    action: 'updateRecords',
-                    records: records
-                });
-                
-                showNotification('记录保存成功', 'success');
             } catch (error) {
                 console.error('保存记录时出错:', error);
-                showNotification('保存记录失败', 'error');
             }
         }
 
@@ -573,52 +362,29 @@
                 const recordList = document.getElementById('recordList');
                 const checkboxes = recordList.querySelectorAll('input[type="checkbox"]');
                 const records = JSON.parse(localStorage.getItem('records')) || [];
-                
-                let hasSelection = false;
-                for (let i = 0; i < checkboxes.length; i++) {
-                    if (checkboxes[i].checked) {
-                        hasSelection = true;
-                        break;
-                    }
-                }
-                
-                if (!hasSelection) {
-                    showNotification('请选择要删除的记录', 'warning');
-                    return;
-                }
-                
-                if (!confirm('确定要删除选中的记录吗？此操作不可恢复。')) {
-                    return;
-                }
-                
                 const newRecords = [];
-                let deletedCount = 0;
-                
+
                 recordList.childNodes.forEach((listItem, index) => {
                     const checkbox = listItem.querySelector('input[type="checkbox"]');
                     if (!checkbox.checked) {
                         newRecords.push(records[index]);
                     } else {
-                        deletedCount++;
                         listItem.classList.add('deleting');
                         setTimeout(() => {
                             listItem.remove();
                         }, 500);
                     }
                 });
-                
+
                 localStorage.setItem('records', JSON.stringify(newRecords));
-                
+
                 // 广播更新消息
                 channel.postMessage({
                     action: 'updateRecords',
                     records: newRecords
                 });
-                
-                showNotification(`已删除 ${deletedCount} 条记录`, 'success');
             } catch (error) {
                 console.error('删除记录时出错:', error);
-                showNotification('删除记录失败', 'error');
             }
         }
 
@@ -626,61 +392,12 @@
             try {
                 const recordList = document.getElementById('recordList');
                 const checkboxes = recordList.querySelectorAll('input[type="checkbox"]');
-                
-                if (checkboxes.length === 0) {
-                    showNotification('没有记录可选择', 'info');
-                    return;
-                }
-                
-                const allChecked = Array.from(checkboxes).every(checkbox => checkbox.checked);
-                
                 checkboxes.forEach((checkbox) => {
-                    checkbox.checked = !allChecked;
+                    checkbox.checked = true;
                 });
             } catch (error) {
                 console.error('全选记录时出错:', error);
-                showNotification('全选记录失败', 'error');
             }
-        }
-
-        // 打开大图查看
-        function openFullSize(img) {
-            const fullSizeImg = img.cloneNode();
-            fullSizeImg.classList.remove('thumbnail');
-            fullSizeImg.classList.add('full-size', 'image-loading');
-            
-            // 如果有保存的原始尺寸，则使用原始尺寸
-            if (img.dataset.fullSize) {
-                fullSizeImg.src = img.dataset.fullSize;
-            }
-            
-            fullSizeImg.onload = function() {
-                fullSizeImg.classList.remove('image-loading');
-            };
-            
-            // 移除现有的大图并添加新的
-            const existingFullSize = document.querySelector('.full-size');
-            if (existingFullSize) {
-                existingFullSize.parentNode.removeChild(existingFullSize);
-            }
-            
-            document.body.appendChild(fullSizeImg);
-            document.getElementById('overlay').style.display = 'block';
-            
-            // 添加点击关闭事件
-            fullSizeImg.addEventListener('click', function(e) {
-                e.stopPropagation(); // 防止事件冒泡到遮罩层
-                closeFullSize();
-            });
-        }
-
-        // 关闭大图查看
-        function closeFullSize() {
-            const fullSizeImg = document.querySelector('.full-size');
-            if (fullSizeImg) {
-                fullSizeImg.parentNode.removeChild(fullSizeImg);
-            }
-            document.getElementById('overlay').style.display = 'none';
         }
 
         // 监听其他标签页的消息
@@ -688,59 +405,33 @@
             if (event.data.action === 'updateRecords') {
                 const records = event.data.records;
                 localStorage.setItem('records', JSON.stringify(records));
-                renderRecords(records);
+                const recordList = document.getElementById('recordList');
+                recordList.innerHTML = '';
+                for (let i = 0; i < records.length; i++) {
+                    const record = records[i];
+                    const listItem = document.createElement('li');
+                    const checkbox = document.createElement('input');
+                    checkbox.type = 'checkbox';
+                    listItem.appendChild(checkbox);
+                    const recordContent = document.createElement('div');
+                    // 将 Markdown 转换为 HTML
+                    recordContent.innerHTML = marked.parse(record.content);
+                    // 处理图片点击事件
+                    recordContent.querySelectorAll('img').forEach(img => {
+                        img.classList.add('thumbnail');
+                        img.addEventListener('click', function () {
+                            this.classList.toggle('full-size');
+                        });
+                    });
+                    listItem.appendChild(recordContent);
+                    const recordTime = document.createElement('span');
+                    recordTime.classList.add('record-time');
+                    recordTime.textContent = record.time;
+                    listItem.appendChild(recordTime);
+                    recordList.appendChild(listItem);
+                }
             }
         };
-
-        // 显示通知
-        function showNotification(message, type = 'info') {
-            // 创建通知元素
-            const notification = document.createElement('div');
-            notification.className = `notification notification-${type}`;
-            notification.textContent = message;
-            
-            // 设置样式
-            notification.style.position = 'fixed';
-            notification.style.top = '20px';
-            notification.style.right = '20px';
-            notification.style.padding = '10px 20px';
-            notification.style.borderRadius = '5px';
-            notification.style.color = 'white';
-            notification.style.zIndex = '1000';
-            notification.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.1)';
-            notification.style.opacity = '0';
-            notification.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
-            notification.style.transform = 'translateY(-10px)';
-            
-            // 根据类型设置背景色
-            if (type === 'success') {
-                notification.style.backgroundColor = '#28a745';
-            } else if (type === 'error') {
-                notification.style.backgroundColor = '#dc3545';
-            } else if (type === 'warning') {
-                notification.style.backgroundColor = '#ffc107';
-            } else {
-                notification.style.backgroundColor = '#007bff';
-            }
-            
-            // 添加到页面
-            document.body.appendChild(notification);
-            
-            // 显示动画
-            setTimeout(() => {
-                notification.style.opacity = '1';
-                notification.style.transform = 'translateY(0)';
-            }, 10);
-            
-            // 自动关闭
-            setTimeout(() => {
-                notification.style.opacity = '0';
-                notification.style.transform = 'translateY(-10px)';
-                setTimeout(() => {
-                    document.body.removeChild(notification);
-                }, 300);
-            }, 3000);
-        }
     </script>
 </body>
 
