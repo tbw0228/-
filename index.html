@@ -46,10 +46,10 @@
                 border-radius: 9999px;
             }
             .fade-in {
-                animation: fadeIn 0.3s ease forwards;
+                animation: fadeIn 0.5s ease forwards;
             }
             .fade-out {
-                animation: fadeOut 0.3s ease forwards;
+                animation: fadeOut 0.5s ease forwards;
             }
             .scale-hover {
                 transition: transform 0.2s ease;
@@ -75,21 +75,6 @@
                 100% {
                     left: 100%;
                 }
-            }
-            .markdown-toolbar {
-                transition: all 0.3s ease;
-            }
-            .toolbar-button {
-                @apply flex items-center justify-center p-2 rounded hover:bg-gray-100 transition-colors text-gray-700;
-            }
-            .toolbar-button.active {
-                @apply bg-primary/10 text-primary;
-            }
-            .toolbar-dropdown {
-                @apply absolute left-0 top-full bg-white rounded shadow-lg mt-1 z-10 w-48 hidden;
-            }
-            .toolbar-dropdown-item {
-                @apply px-3 py-2 hover:bg-gray-100 cursor-pointer;
             }
         }
 
@@ -139,88 +124,7 @@
     <main class="flex-grow container mx-auto px-4 py-6">
         <!-- 输入区域 -->
         <div class="mb-8">
-            <!-- Markdown 工具栏 -->
-            <div id="markdownToolbar" class="markdown-toolbar bg-white rounded-t-xl shadow-sm border border-gray-200 border-b-0 opacity-0 translate-y-[-10px] transition-all duration-300">
-                <div class="flex flex-wrap items-center py-1 px-2">
-                    <!-- 标题选择器 -->
-                    <div class="relative group">
-                        <button class="toolbar-button" id="headingDropdownButton">
-                            <i class="fa fa-header"></i>
-                        </button>
-                        <div id="headingDropdown" class="toolbar-dropdown">
-                            <div class="toolbar-dropdown-item" data-command="heading" data-value="1">标题 1</div>
-                            <div class="toolbar-dropdown-item" data-command="heading" data-value="2">标题 2</div>
-                            <div class="toolbar-dropdown-item" data-command="heading" data-value="3">标题 3</div>
-                            <div class="toolbar-dropdown-item" data-command="heading" data-value="4">标题 4</div>
-                            <div class="toolbar-dropdown-item" data-command="heading" data-value="5">标题 5</div>
-                            <div class="toolbar-dropdown-item" data-command="heading" data-value="6">标题 6</div>
-                        </div>
-                    </div>
-                    
-                    <div class="h-6 w-px bg-gray-200 mx-1"></div>
-                    
-                    <!-- 格式按钮 -->
-                    <button class="toolbar-button" data-command="bold">
-                        <i class="fa fa-bold"></i>
-                    </button>
-                    <button class="toolbar-button" data-command="italic">
-                        <i class="fa fa-italic"></i>
-                    </button>
-                    <button class="toolbar-button" data-command="strikethrough">
-                        <i class="fa fa-strikethrough"></i>
-                    </button>
-                    <button class="toolbar-button" data-command="blockquote">
-                        <i class="fa fa-quote-left"></i>
-                    </button>
-                    
-                    <div class="h-6 w-px bg-gray-200 mx-1"></div>
-                    
-                    <!-- 列表按钮 -->
-                    <button class="toolbar-button" data-command="ul">
-                        <i class="fa fa-list-ul"></i>
-                    </button>
-                    <button class="toolbar-button" data-command="ol">
-                        <i class="fa fa-list-ol"></i>
-                    </button>
-                    <button class="toolbar-button" data-command="task">
-                        <i class="fa fa-check-square-o"></i>
-                    </button>
-                    
-                    <div class="h-6 w-px bg-gray-200 mx-1"></div>
-                    
-                    <!-- 其他元素 -->
-                    <button class="toolbar-button" data-command="link">
-                        <i class="fa fa-link"></i>
-                    </button>
-                    <button class="toolbar-button" data-command="image">
-                        <i class="fa fa-image"></i>
-                    </button>
-                    <button class="toolbar-button" data-command="code">
-                        <i class="fa fa-code"></i>
-                    </button>
-                    <button class="toolbar-button" data-command="table">
-                        <i class="fa fa-table"></i>
-                    </button>
-                    
-                    <div class="h-6 w-px bg-gray-200 mx-1"></div>
-                    
-                    <!-- 对齐方式 -->
-                    <div class="ml-auto">
-                        <button class="toolbar-button" data-command="align-left">
-                            <i class="fa fa-align-left"></i>
-                        </button>
-                        <button class="toolbar-button" data-command="align-center">
-                            <i class="fa fa-align-center"></i>
-                        </button>
-                        <button class="toolbar-button" data-command="align-right">
-                            <i class="fa fa-align-right"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- 编辑器 -->
-            <div class="bg-white rounded-b-xl shadow-sm p-4 border border-gray-200 mb-4">
+            <div class="bg-white rounded-xl shadow-sm p-4 border border-gray-200 mb-4">
                 <div id="inputText" contenteditable="true" placeholder="在这里粘贴或输入你的 Markdown 记录内容" 
                     class="min-h-[200px] w-full outline-none focus:ring-2 focus:ring-primary/30 transition-all"></div>
             </div>
@@ -311,10 +215,6 @@
                         <h4 class="font-medium text-gray-800 mb-1">支持Markdown吗？</h4>
                         <p>是的，记录内容支持Markdown语法，并会自动渲染为格式化文本。</p>
                     </div>
-                    <div>
-                        <h4 class="font-medium text-gray-800 mb-1">Markdown工具有什么用？</h4>
-                        <p>当您开始编辑时，顶部会出现Markdown工具栏，您可以使用这些按钮快速添加格式、链接、图片等Markdown元素。</p>
-                    </div>
                 </div>
             </div>
             <div class="px-6 py-3 bg-gray-50 rounded-b-xl flex justify-end">
@@ -323,20 +223,6 @@
                 </button>
             </div>
         </div>
-    </div>
-
-    <!-- 通知提示框 -->
-    <div id="notification" class="fixed bottom-4 right-4 bg-white shadow-lg rounded-lg p-4 max-w-sm transform translate-y-20 opacity-0 transition-all duration-300 z-50 flex items-center">
-        <div id="notificationIcon" class="mr-3 text-lg">
-            <i class="fa fa-info-circle"></i>
-        </div>
-        <div class="flex-grow">
-            <h4 id="notificationTitle" class="font-medium text-gray-800">通知标题</h4>
-            <p id="notificationMessage" class="text-sm text-gray-600">通知内容</p>
-        </div>
-        <button onclick="hideNotification()" class="text-gray-400 hover:text-gray-600">
-            <i class="fa fa-times"></i>
-        </button>
     </div>
 
     <!-- 页脚 -->
@@ -364,12 +250,6 @@
         
         // 当前正在编辑的记录索引
         let editingRecordIndex = null;
-        // 编辑器聚焦状态
-        let editorFocused = false;
-        // 工具栏可见状态
-        let toolbarVisible = false;
-        // 通知定时器
-        let notificationTimer = null;
 
         // 页面加载时从 localStorage 读取记录
         window.onload = function () {
@@ -390,382 +270,207 @@
                     document.body.classList.add('dark-mode');
                     document.getElementById('themeToggle').innerHTML = '<i class="fa fa-sun-o"></i>';
                 }
-                
-                // 初始化 Markdown 工具栏
-                initMarkdownToolbar();
-                
-                // 监听编辑器聚焦和失焦事件
-                const inputText = document.getElementById('inputText');
-                inputText.addEventListener('focus', function() {
-                    editorFocused = true;
-                    showMarkdownToolbar();
-                });
-                
-                inputText.addEventListener('blur', function() {
-                    editorFocused = false;
-                    // 延迟隐藏工具栏，给用户点击工具栏按钮的时间
-                    setTimeout(function() {
-                        if (!editorFocused && !toolbarHasFocus()) {
-                            hideMarkdownToolbar();
-                        }
-                    }, 300);
-                });
-                
-                // 监听工具栏按钮点击
-                document.querySelectorAll('#markdownToolbar [data-command]').forEach(button => {
-                    button.addEventListener('click', function() {
-                        const command = this.getAttribute('data-command');
-                        const value = this.getAttribute('data-value');
-                        executeMarkdownCommand(command, value);
-                        
-                        // 防止按钮点击导致编辑器失焦
-                        inputText.focus();
-                    });
-                });
-                
-                // 监听标题下拉菜单
-                document.getElementById('headingDropdownButton').addEventListener('click', function(e) {
-                    e.stopPropagation(); // 防止事件冒泡到 document
-                    const dropdown = document.getElementById('headingDropdown');
-                    dropdown.classList.toggle('hidden');
-                });
-                
-                // 点击其他区域关闭下拉菜单
-                document.addEventListener('click', function(event) {
-                    const dropdown = document.getElementById('headingDropdown');
-                    if (!dropdown.contains(event.target) && 
-                        event.target.id !== 'headingDropdownButton') {
-                        dropdown.classList.add('hidden');
-                    }
-                });
-                
-                // 监听标题下拉菜单项点击
-                document.querySelectorAll('#headingDropdown .toolbar-dropdown-item').forEach(item => {
-                    item.addEventListener('click', function() {
-                        const command = this.getAttribute('data-command');
-                        const value = this.getAttribute('data-value');
-                        executeMarkdownCommand(command, value);
-                        document.getElementById('headingDropdown').classList.add('hidden');
-                        
-                        // 防止菜单项点击导致编辑器失焦
-                        inputText.focus();
-                    });
-                });
-                
-                // 监听工具栏的鼠标进入和离开事件
-                const toolbar = document.getElementById('markdownToolbar');
-                toolbar.addEventListener('mouseenter', function() {
-                    if (!editorFocused) {
-                        // 如果编辑器没有焦点，但鼠标在工具栏上，保持工具栏可见
-                        clearTimeout(window.hideToolbarTimeout);
-                    }
-                });
-                
-                toolbar.addEventListener('mouseleave', function() {
-                    if (!editorFocused) {
-                        // 如果编辑器没有焦点，且鼠标离开工具栏，延迟隐藏工具栏
-                        window.hideToolbarTimeout = setTimeout(function() {
-                            if (!editorFocused && !toolbarHasFocus()) {
-                                hideMarkdownToolbar();
-                            }
-                        }, 300);
-                    }
-                });
-                
-                // 监听粘贴事件
-                inputText.addEventListener('paste', async function (e) {
-                    const items = e.clipboardData.items;
-                    let foundImage = false;
-                    
-                    for (let i = 0; i < items.length; i++) {
-                        const item = items[i];
-                        if (item.type.indexOf('image')!== -1) {
-                            e.preventDefault(); // 阻止默认粘贴行为
-                            foundImage = true;
-                            
-                            try {
-                                // 获取文件对象
-                                const blob = await new Promise((resolve, reject) => {
-                                    const file = item.getAsFile();
-                                    if (file) {
-                                        resolve(file);
-                                    } else {
-                                        reject(new Error('无法获取文件对象'));
-                                    }
-                                });
-                                
-                                // 读取文件内容
-                                const reader = new FileReader();
-                                reader.onload = function (event) {
-                                    const originalDataURL = event.target.result;
-                                    
-                                    // 创建不同尺寸的缩略图（根据屏幕尺寸）
-                                    const isMobile = window.innerWidth < 768;
-                                    const maxWidth = isMobile ? 400 : 800;
-                                    const maxHeight = isMobile ? 300 : 600;
-                                    
-                                    createThumbnail(originalDataURL, maxWidth, maxHeight, function(thumbnailDataURL) {
-                                        insertImageIntoEditor(thumbnailDataURL, originalDataURL);
-                                    });
-                                };
-                                
-                                reader.onerror = function (error) {
-                                    console.error('读取文件时出错:', error);
-                                    showNotification('插入图片失败', 'error');
-                                };
-                                
-                                reader.readAsDataURL(blob);
-                            } catch (error) {
-                                console.error('处理粘贴图片时出错:', error);
-                                showNotification('插入图片失败', 'error');
-                            }
-                            
-                            break;
-                        }
-                    }
-                    
-                    // 如果没有找到图片，允许默认粘贴行为
-                    if (!foundImage) {
-                        // 处理文本粘贴
-                        setTimeout(function() {
-                            // 确保内容更新后执行
-                            formatPastedContent(inputText);
-                        }, 0);
-                    }
-                });
-                
-                // 监听广播消息，实现多标签页同步
-                channel.onmessage = function(event) {
-                    if (event.data.action === 'recordsUpdated') {
-                        const records = JSON.parse(localStorage.getItem('records')) || [];
-                        renderRecords(records);
-                        updateRecordCount(records.length);
-                    }
-                };
             } catch (error) {
                 console.error('读取 localStorage 记录时出错:', error);
                 showNotification('加载记录失败', 'error');
             }
         };
 
-        // 格式化粘贴的内容
-        function formatPastedContent(element) {
-            // 简单的格式化处理，可以根据需要扩展
-            const content = element.innerHTML;
-            // 例如：移除多余的空行
-            element.innerHTML = content.replace(/<p><br><\/p>/g, '<p><br/></p>');
-        }
-
-        // 检查工具栏是否有焦点
-        function toolbarHasFocus() {
-            const toolbar = document.getElementById('markdownToolbar');
-            return toolbar.contains(document.activeElement);
-        }
-
-        // 初始化 Markdown 工具栏
-        function initMarkdownToolbar() {
-            const toolbar = document.getElementById('markdownToolbar');
-            // 初始隐藏工具栏
-            toolbar.classList.add('opacity-0', 'translate-y-[-10px]');
-        }
-
-        // 显示 Markdown 工具栏
-        function showMarkdownToolbar() {
-            const toolbar = document.getElementById('markdownToolbar');
-            toolbar.classList.remove('hidden');
-            setTimeout(() => {
-                toolbar.classList.remove('opacity-0', 'translate-y-[-10px]');
-                toolbarVisible = true;
-            }, 10);
-        }
-
-        // 隐藏 Markdown 工具栏
-        function hideMarkdownToolbar() {
-            const toolbar = document.getElementById('markdownToolbar');
-            toolbar.classList.add('opacity-0', 'translate-y-[-10px]');
-            setTimeout(() => {
-                toolbar.classList.add('hidden');
-                toolbarVisible = false;
-            }, 300);
-        }
-
-        // 执行 Markdown 命令
-        function executeMarkdownCommand(command, value) {
-            const inputText = document.getElementById('inputText');
-            const selection = window.getSelection();
+        // 渲染记录列表
+        function renderRecords(records) {
+            const recordList = document.getElementById('recordList');
+            recordList.innerHTML = '';
             
-            if (!selection.rangeCount) return;
-            
-            const range = selection.getRangeAt(0);
-            let selectedText = selection.toString();
-            let replacement = '';
-            
-            switch(command) {
-                case 'heading':
-                    const level = parseInt(value);
-                    const prefix = '#'.repeat(level) + ' ';
-                    if (selectedText) {
-                        // 处理选中的多行文本
-                        const lines = selectedText.split('\n');
-                        replacement = lines.map(line => prefix + line).join('\n');
-                    } else {
-                        replacement = prefix + '标题 ' + level;
-                        // 选中标题文本以便用户直接修改
-                        range.setStart(range.startContainer, range.startOffset + prefix.length);
-                        range.setEnd(range.startContainer, range.startOffset + ('标题 ' + level).length);
-                        selection.removeAllRanges();
-                        selection.addRange(range);
-                    }
-                    break;
-                    
-                case 'bold':
-                    replacement = `**${selectedText || '粗体文本'}**`;
-                    break;
-                    
-                case 'italic':
-                    replacement = `*${selectedText || '斜体文本'}*`;
-                    break;
-                    
-                case 'strikethrough':
-                    replacement = `~~${selectedText || '删除线文本'}~~`;
-                    break;
-                    
-                case 'blockquote':
-                    if (selectedText) {
-                        const lines = selectedText.split('\n');
-                        replacement = lines.map(line => '> ' + line).join('\n');
-                    } else {
-                        replacement = '> 引用文本';
-                    }
-                    break;
-                    
-                case 'ul':
-                    if (selectedText) {
-                        const lines = selectedText.split('\n');
-                        replacement = lines.map(line => '- ' + line).join('\n');
-                    } else {
-                        replacement = '- 无序列表项\n- 无序列表项\n- 无序列表项';
-                        // 选中第二个列表项以便用户直接修改
-                        range.setStart(range.startContainer, range.startOffset + 11);
-                        range.setEnd(range.startContainer, range.startOffset + 22);
-                        selection.removeAllRanges();
-                        selection.addRange(range);
-                    }
-                    break;
-                    
-                case 'ol':
-                    if (selectedText) {
-                        const lines = selectedText.split('\n');
-                        replacement = lines.map((line, index) => `${index + 1}. ${line}`).join('\n');
-                    } else {
-                        replacement = '1. 有序列表项\n2. 有序列表项\n3. 有序列表项';
-                        // 选中第二个列表项以便用户直接修改
-                        range.setStart(range.startContainer, range.startOffset + 11);
-                        range.setEnd(range.startContainer, range.startOffset + 22);
-                        selection.removeAllRanges();
-                        selection.addRange(range);
-                    }
-                    break;
-                    
-                case 'task':
-                    if (selectedText) {
-                        const lines = selectedText.split('\n');
-                        replacement = lines.map(line => '- [ ] ' + line).join('\n');
-                    } else {
-                        replacement = '- [ ] 待办事项\n- [ ] 待办事项\n- [x] 已完成事项';
-                        // 选中第二个待办事项以便用户直接修改
-                        range.setStart(range.startContainer, range.startOffset + 12);
-                        range.setEnd(range.startContainer, range.startOffset + 23);
-                        selection.removeAllRanges();
-                        selection.addRange(range);
-                    }
-                    break;
-                    
-                case 'link':
-                    const linkText = selectedText || '链接文本';
-                    replacement = `[${linkText}](https://example.com)`;
-                    // 选中 URL 以便用户直接修改
-                    if (!selectedText) {
-                        range.setStart(range.startContainer, range.startOffset + linkText.length + 2);
-                        range.setEnd(range.startContainer, range.startOffset + 23);
-                        selection.removeAllRanges();
-                        selection.addRange(range);
-                    }
-                    break;
-                    
-                case 'image':
-                    replacement = '![图片描述](https://picsum.photos/800/400)';
-                    // 选中图片描述以便用户直接修改
-                    range.setStart(range.startContainer, range.startOffset + 2);
-                    range.setEnd(range.startContainer, range.startOffset + 6);
-                    selection.removeAllRanges();
-                    selection.addRange(range);
-                    break;
-                    
-                case 'code':
-                    if (selectedText.includes('\n')) {
-                        replacement = "```javascript\n" + selectedText + "\n```";
-                    } else {
-                        replacement = `\`${selectedText || '代码'}\``;
-                    }
-                    break;
-                    
-                case 'table':
-                    replacement = `| 表头1 | 表头2 | 表头3 |\n| --- | --- | --- |\n| 单元格1 | 单元格2 | 单元格3 |\n| 单元格4 | 单元格5 | 单元格6 |`;
-                    // 选中第一行数据以便用户直接修改
-                    range.setStart(range.startContainer, range.startOffset + 21);
-                    range.setEnd(range.startContainer, range.startOffset + 32);
-                    selection.removeAllRanges();
-                    selection.addRange(range);
-                    break;
-                    
-                case 'align-left':
-                    // 简单实现，实际中可能需要更复杂的处理
-                    replacement = `<div style="text-align: left;">${selectedText || '左对齐文本'}</div>`;
-                    break;
-                    
-                case 'align-center':
-                    replacement = `<div style="text-align: center;">${selectedText || '居中对齐文本'}</div>`;
-                    break;
-                    
-                case 'align-right':
-                    replacement = `<div style="text-align: right;">${selectedText || '右对齐文本'}</div>`;
-                    break;
+            // 显示或隐藏空状态
+            const emptyState = document.getElementById('emptyState');
+            if (records.length === 0) {
+                emptyState.classList.remove('hidden');
+                return;
+            } else {
+                emptyState.classList.add('hidden');
             }
             
-            // 替换选中文本
-            if (replacement) {
-                range.deleteContents();
-                const textNode = document.createTextNode(replacement);
-                range.insertNode(textNode);
+            // 从最新到最旧的顺序渲染记录
+            for (let i = records.length - 1; i >= 0; i--) {
+                const record = records[i];
+                const listItem = document.createElement('li');
+                listItem.className = 'bg-white rounded-xl shadow-sm border border-gray-100 p-4 scale-hover fade-in';
                 
-                // 调整光标位置
-                if (!selectedText) {
-                    const pos = replacement.indexOf('文本');
-                    if (pos !== -1) {
-                        range.setStart(textNode, pos);
-                        range.setEnd(textNode, pos + 2);
-                        selection.removeAllRanges();
-                        selection.addRange(range);
+                const checkboxContainer = document.createElement('div');
+                checkboxContainer.className = 'mr-3 flex-shrink-0';
+                
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.className = 'w-5 h-5 rounded border-gray-300 text-primary focus:ring-primary/50';
+                
+                checkboxContainer.appendChild(checkbox);
+                listItem.appendChild(checkboxContainer);
+                
+                const contentContainer = document.createElement('div');
+                contentContainer.className = 'flex-grow';
+                
+                // 将 Markdown 转换为 HTML
+                const recordContent = document.createElement('div');
+                recordContent.className = 'prose max-w-none';
+                recordContent.innerHTML = marked.parse(record.content);
+                
+                // 处理图片点击事件
+                recordContent.querySelectorAll('img').forEach(img => {
+                    img.className = 'thumbnail max-w-full h-auto rounded-lg shadow-sm my-2 cursor-pointer transition-all hover:shadow-md image-loading';
+                    img.addEventListener('click', function () {
+                        openFullSize(this);
+                    });
+                    
+                    img.onload = function() {
+                        img.classList.remove('image-loading');
+                    };
+                });
+                
+                contentContainer.appendChild(recordContent);
+                
+                // 记录时间
+                const timeContainer = document.createElement('div');
+                timeContainer.className = 'flex justify-between items-center mt-3 text-sm text-gray-500';
+                
+                const recordTime = document.createElement('span');
+                if (record.modifiedTime) {
+                    recordTime.innerHTML = `<span class="text-gray-700">创建于:</span> ${record.time} <span class="text-gray-700 ml-2">修改于:</span> ${record.modifiedTime}`;
+                } else {
+                    recordTime.textContent = `创建于: ${record.time}`;
+                }
+                
+                const viewActions = document.createElement('div');
+                viewActions.className = 'flex items-center space-x-2';
+                
+                // 复制按钮
+                const copyBtn = document.createElement('button');
+                copyBtn.className = 'text-gray-400 hover:text-primary transition-colors';
+                copyBtn.innerHTML = '<i class="fa fa-copy"></i>';
+                copyBtn.addEventListener('click', function() {
+                    copyToClipboard(record.content);
+                    showNotification('已复制到剪贴板', 'success');
+                });
+                
+                // 编辑按钮
+                const editBtn = document.createElement('button');
+                editBtn.className = 'text-gray-400 hover:text-info transition-colors';
+                editBtn.innerHTML = '<i class="fa fa-pencil"></i>';
+                editBtn.addEventListener('click', function() {
+                    startEditing(i);
+                });
+                
+                viewActions.appendChild(copyBtn);
+                viewActions.appendChild(editBtn);
+                
+                timeContainer.appendChild(recordTime);
+                timeContainer.appendChild(viewActions);
+                
+                contentContainer.appendChild(timeContainer);
+                
+                listItem.appendChild(contentContainer);
+                recordList.appendChild(listItem);
+            }
+        }
+
+        // 监听粘贴事件
+        const inputText = document.getElementById('inputText');
+        inputText.addEventListener('paste', async function (e) {
+            const items = e.clipboardData.items;
+            let foundImage = false;
+            
+            for (let i = 0; i < items.length; i++) {
+                const item = items[i];
+                if (item.type.indexOf('image')!== -1) {
+                    e.preventDefault(); // 阻止默认粘贴行为
+                    foundImage = true;
+                    
+                    try {
+                        // 获取文件对象
+                        const blob = await new Promise((resolve, reject) => {
+                            const file = item.getAsFile();
+                            if (file) {
+                                resolve(file);
+                            } else {
+                                reject(new Error('无法获取文件对象'));
+                            }
+                        });
+                        
+                        // 读取文件内容
+                        const reader = new FileReader();
+                        reader.onload = function (event) {
+                            const originalDataURL = event.target.result;
+                            
+                            // 创建不同尺寸的缩略图（根据屏幕尺寸）
+                            const isMobile = window.innerWidth < 768;
+                            const maxWidth = isMobile ? 400 : 800;
+                            const maxHeight = isMobile ? 300 : 600;
+                            
+                            createThumbnail(originalDataURL, maxWidth, maxHeight, function(thumbnailDataURL) {
+                                insertImageIntoEditor(thumbnailDataURL, originalDataURL);
+                            });
+                        };
+                        
+                        reader.onerror = function (error) {
+                            console.error('读取文件时出错:', error);
+                            showNotification('插入图片失败', 'error');
+                        };
+                        
+                        reader.readAsDataURL(blob);
+                    } catch (error) {
+                        console.error('处理粘贴图片时出错:', error);
+                        showNotification('插入图片失败', 'error');
                     }
+                    
+                    break;
                 }
             }
             
-            // 触发输入事件以便更新预览
-            const event = new Event('input', { bubbles: true });
-            inputText.dispatchEvent(event);
+            // 如果没有找到图片，允许默认粘贴行为
+            if (!foundImage) {
+                return true;
+            }
+        });
+
+        // 在编辑器中插入图片
+        function insertImageIntoEditor(thumbnailDataURL, fullSizeDataURL) {
+            const img = document.createElement('img');
+            img.src = thumbnailDataURL;
+            img.dataset.fullSize = fullSizeDataURL;
+            img.className = 'thumbnail max-w-full h-auto rounded-lg shadow-sm my-2 image-loading';
+            img.addEventListener('click', function() {
+                openFullSize(this);
+            });
+            
+            img.onload = function() {
+                img.classList.remove('image-loading');
+            };
+            
+            // 将光标位置获取并插入图片
+            const selection = window.getSelection();
+            if (selection.rangeCount > 0) {
+                const range = selection.getRangeAt(0);
+                range.insertNode(img);
+                
+                // 移动光标到图片后面
+                range.setStartAfter(img);
+                range.collapse(true);
+                selection.removeAllRanges();
+                selection.addRange(range);
+            } else {
+                inputText.appendChild(img);
+            }
         }
 
-        // 创建图片缩略图
-        function createThumbnail(originalDataURL, maxWidth, maxHeight, callback) {
+        // 创建缩略图
+        function createThumbnail(dataURL, maxWidth, maxHeight, callback) {
             const img = new Image();
-            img.src = originalDataURL;
+            img.src = dataURL;
             
             img.onload = function() {
                 let width = img.width;
                 let height = img.height;
                 
-                // 计算缩放比例
+                // 计算等比例缩放后的尺寸
                 if (width > maxWidth) {
                     height = height * (maxWidth / width);
                     width = maxWidth;
@@ -776,123 +481,60 @@
                     height = maxHeight;
                 }
                 
-                // 创建画布并绘制图片
-                const canvas = new OffscreenCanvas(width, height);
+                const canvas = document.createElement('canvas');
                 const ctx = canvas.getContext('2d');
+                canvas.width = width;
+                canvas.height = height;
+                
+                // 绘制高质量缩略图
                 ctx.drawImage(img, 0, 0, width, height);
                 
-                // 转换为DataURL
-                canvas.convertToBlob().then(blob => {
-                    const reader = new FileReader();
-                    reader.onloadend = function() {
-                        callback(reader.result);
-                    };
-                    reader.readAsDataURL(blob);
-                });
+                // 返回缩略图的DataURL
+                callback(canvas.toDataURL());
+            };
+            
+            img.onerror = function(error) {
+                console.error('创建缩略图时出错:', error);
+                showNotification('处理图片失败', 'error');
             };
         }
 
-        // 插入图片到编辑器
-        function insertImageIntoEditor(thumbnailDataURL, originalDataURL) {
-            const inputText = document.getElementById('inputText');
-            const selection = window.getSelection();
-            
-            if (!selection.rangeCount) return;
-            
-            const range = selection.getRangeAt(0);
-            const imageAlt = '图片';
-            
-            // 构建 Markdown 图片语法，使用缩略图显示，但保存原始图片
-            const imageMarkdown = `![${imageAlt}](${thumbnailDataURL})`;
-            
-            // 替换选中文本
-            range.deleteContents();
-            const textNode = document.createTextNode(imageMarkdown);
-            range.insertNode(textNode);
-            
-            // 触发输入事件
-            const event = new Event('input', { bubbles: true });
-            inputText.dispatchEvent(event);
-            
-            showNotification('图片已插入', 'success');
-        }
-
-        // 保存记录
         function saveRecord() {
-            const content = document.getElementById('inputText').innerHTML.trim();
-            
-            if (!content) {
-                showNotification('记录内容不能为空', 'warning');
-                return;
-            }
-            
             try {
-                const records = JSON.parse(localStorage.getItem('records')) || [];
+                const content = document.getElementById('inputText').innerHTML;
+                if (content.trim() === '') {
+                    showNotification('记录内容不能为空', 'warning');
+                    return;
+                }
+                
                 const now = new Date();
-                const formattedTime = formatDateTime(now);
+                const timeString = now.getFullYear() + '年' + (now.getMonth() + 1) + '月' + now.getDate() + '日 ' + 
+                                   formatTimeComponent(now.getHours()) + ':' + 
+                                   formatTimeComponent(now.getMinutes()) + ':' + 
+                                   formatTimeComponent(now.getSeconds());
                 
-                const newRecord = {
-                    content: content,
-                    time: formattedTime,
-                    id: Date.now().toString() // 为每条记录生成唯一ID
-                };
-                
-                records.push(newRecord);
+                // 更新 localStorage
+                const records = JSON.parse(localStorage.getItem('records')) || [];
+                records.push({ content: content, time: timeString });
                 localStorage.setItem('records', JSON.stringify(records));
                 
-                // 通知其他标签页
-                channel.postMessage({ action: 'recordsUpdated' });
-                
-                // 更新UI
+                // 渲染记录列表
                 renderRecords(records);
                 updateRecordCount(records.length);
+                
+                // 清空输入框
                 document.getElementById('inputText').innerHTML = '';
                 
-                showNotification('记录已保存', 'success');
+                // 广播更新消息
+                channel.postMessage({
+                    action: 'updateRecords',
+                    records: records
+                });
+                
+                showNotification('记录保存成功', 'success');
             } catch (error) {
                 console.error('保存记录时出错:', error);
                 showNotification('保存记录失败', 'error');
-            }
-        }
-
-        // 更新记录
-        function updateRecord() {
-            if (editingRecordIndex === null) return;
-            
-            const content = document.getElementById('inputText').innerHTML.trim();
-            
-            if (!content) {
-                showNotification('记录内容不能为空', 'warning');
-                return;
-            }
-            
-            try {
-                const records = JSON.parse(localStorage.getItem('records')) || [];
-                
-                if (editingRecordIndex >= 0 && editingRecordIndex < records.length) {
-                    const now = new Date();
-                    const formattedTime = formatDateTime(now);
-                    
-                    // 保存修改时间
-                    records[editingRecordIndex].content = content;
-                    records[editingRecordIndex].modifiedTime = formattedTime;
-                    
-                    localStorage.setItem('records', JSON.stringify(records));
-                    
-                    // 通知其他标签页
-                    channel.postMessage({ action: 'recordsUpdated' });
-                    
-                    // 更新UI
-                    renderRecords(records);
-                    cancelEdit();
-                    
-                    showNotification('记录已更新', 'success');
-                } else {
-                    showNotification('找不到要编辑的记录', 'error');
-                }
-            } catch (error) {
-                console.error('更新记录时出错:', error);
-                showNotification('更新记录失败', 'error');
             }
         }
 
@@ -900,137 +542,202 @@
         function startEditing(index) {
             try {
                 const records = JSON.parse(localStorage.getItem('records')) || [];
-                
                 if (index >= 0 && index < records.length) {
                     editingRecordIndex = index;
-                    const record = records[index];
                     
-                    // 填充编辑器
-                    document.getElementById('inputText').innerHTML = record.content;
+                    // 填充编辑器内容
+                    document.getElementById('inputText').innerHTML = records[index].content;
                     
-                    // 切换按钮状态
+                    // 切换按钮显示
                     document.getElementById('saveButton').classList.add('hidden');
                     document.getElementById('updateButton').classList.remove('hidden');
                     document.getElementById('cancelEditButton').classList.remove('hidden');
                     
-                    // 显示并聚焦编辑器
-                    document.getElementById('inputText').focus();
-                    
                     // 滚动到顶部
                     window.scrollTo({ top: 0, behavior: 'smooth' });
-                } else {
-                    showNotification('找不到要编辑的记录', 'error');
+                    
+                    // 聚焦到编辑器
+                    document.getElementById('inputText').focus();
+                    
+                    showNotification('已进入编辑模式', 'info');
                 }
             } catch (error) {
-                console.error('获取记录时出错:', error);
-                showNotification('加载记录失败', 'error');
+                console.error('开始编辑记录时出错:', error);
+                showNotification('进入编辑模式失败', 'error');
+            }
+        }
+
+        // 更新记录
+        function updateRecord() {
+            try {
+                if (editingRecordIndex === null) {
+                    showNotification('没有正在编辑的记录', 'warning');
+                    return;
+                }
+                
+                const content = document.getElementById('inputText').innerHTML;
+                if (content.trim() === '') {
+                    showNotification('记录内容不能为空', 'warning');
+                    return;
+                }
+                
+                const records = JSON.parse(localStorage.getItem('records')) || [];
+                if (editingRecordIndex >= 0 && editingRecordIndex < records.length) {
+                    const now = new Date();
+                    const modifiedTimeString = now.getFullYear() + '年' + (now.getMonth() + 1) + '月' + now.getDate() + '日 ' + 
+                                              formatTimeComponent(now.getHours()) + ':' + 
+                                              formatTimeComponent(now.getMinutes()) + ':' + 
+                                              formatTimeComponent(now.getSeconds());
+                    
+                    // 更新记录内容和修改时间
+                    records[editingRecordIndex].content = content;
+                    records[editingRecordIndex].modifiedTime = modifiedTimeString;
+                    
+                    localStorage.setItem('records', JSON.stringify(records));
+                    
+                    // 渲染记录列表
+                    renderRecords(records);
+                    
+                    // 重置编辑状态
+                    cancelEdit();
+                    
+                    // 广播更新消息
+                    channel.postMessage({
+                        action: 'updateRecords',
+                        records: records
+                    });
+                    
+                    showNotification('记录更新成功', 'success');
+                }
+            } catch (error) {
+                console.error('更新记录时出错:', error);
+                showNotification('更新记录失败', 'error');
             }
         }
 
         // 取消编辑
         function cancelEdit() {
-            editingRecordIndex = null;
+            // 清空编辑器
             document.getElementById('inputText').innerHTML = '';
+            
+            // 重置编辑状态
+            editingRecordIndex = null;
+            
+            // 切换按钮显示
             document.getElementById('saveButton').classList.remove('hidden');
             document.getElementById('updateButton').classList.add('hidden');
             document.getElementById('cancelEditButton').classList.add('hidden');
+            
+            showNotification('已取消编辑', 'info');
         }
 
-        // 删除选中的记录
         function deleteSelectedRecords() {
-            const checkboxes = document.querySelectorAll('#recordList input[type="checkbox"]');
-            const selectedIndices = [];
-            
-            checkboxes.forEach((checkbox, index) => {
-                if (checkbox.checked) {
-                    selectedIndices.push(checkboxes.length - 1 - index); // 反转索引，因为记录是倒序显示的
+            try {
+                const recordList = document.getElementById('recordList');
+                const checkboxes = recordList.querySelectorAll('input[type="checkbox"]');
+                const records = JSON.parse(localStorage.getItem('records')) || [];
+                
+                let hasSelection = false;
+                checkboxes.forEach(checkbox => {
+                    if (checkbox.checked) hasSelection = true;
+                });
+                
+                if (!hasSelection) {
+                    showNotification('请选择要删除的记录', 'warning');
+                    return;
                 }
-            });
-            
-            if (selectedIndices.length === 0) {
-                showNotification('请先选择要删除的记录', 'warning');
-                return;
-            }
-            
-            if (confirm(`确定要删除选中的 ${selectedIndices.length} 条记录吗？此操作不可撤销。`)) {
-                try {
-                    const records = JSON.parse(localStorage.getItem('records')) || [];
-                    
-                    // 按降序排列索引，避免删除元素后索引变化
-                    selectedIndices.sort((a, b) => b - a);
-                    
-                    // 删除选中的记录
-                    selectedIndices.forEach(index => {
-                        if (index >= 0 && index < records.length) {
-                            records.splice(index, 1);
-                        }
-                    });
-                    
-                    localStorage.setItem('records', JSON.stringify(records));
-                    
-                    // 通知其他标签页
-                    channel.postMessage({ action: 'recordsUpdated' });
-                    
-                    // 更新UI
-                    renderRecords(records);
-                    updateRecordCount(records.length);
-                    
-                    showNotification(`已删除 ${selectedIndices.length} 条记录`, 'success');
-                } catch (error) {
-                    console.error('删除记录时出错:', error);
-                    showNotification('删除记录失败', 'error');
+                
+                if (!confirm('确定要删除选中的记录吗？此操作不可恢复。')) {
+                    return;
                 }
+                
+                const newRecords = [];
+                let deletedCount = 0;
+                
+                recordList.childNodes.forEach((listItem, index) => {
+                    const checkbox = listItem.querySelector('input[type="checkbox"]');
+                    if (!checkbox.checked) {
+                        // 注意：由于记录是倒序显示的，需要将索引转换为原始数组中的位置
+                        const originalIndex = records.length - 1 - index;
+                        newRecords.push(records[originalIndex]);
+                    } else {
+                        deletedCount++;
+                        listItem.classList.add('fade-out');
+                        setTimeout(() => {
+                            listItem.remove();
+                        }, 500);
+                    }
+                });
+                
+                localStorage.setItem('records', JSON.stringify(newRecords));
+                
+                // 如果正在编辑的记录被删除，取消编辑状态
+                if (editingRecordIndex !== null && editingRecordIndex >= newRecords.length) {
+                    cancelEdit();
+                }
+                
+                // 广播更新消息
+                channel.postMessage({
+                    action: 'updateRecords',
+                    records: newRecords
+                });
+                
+                updateRecordCount(newRecords.length);
+                showNotification(`已删除 ${deletedCount} 条记录`, 'success');
+            } catch (error) {
+                console.error('删除记录时出错:', error);
+                showNotification('删除记录失败', 'error');
             }
         }
 
-        // 全选/取消全选记录
         function selectAllRecords() {
-            const checkboxes = document.querySelectorAll('#recordList input[type="checkbox"]');
-            let allChecked = true;
-            
-            // 检查是否所有复选框都已选中
-            checkboxes.forEach(checkbox => {
-                if (!checkbox.checked) {
-                    allChecked = false;
+            try {
+                const recordList = document.getElementById('recordList');
+                const checkboxes = recordList.querySelectorAll('input[type="checkbox"]');
+                
+                if (checkboxes.length === 0) {
+                    showNotification('没有记录可选择', 'info');
+                    return;
                 }
-            });
-            
-            // 设置所有复选框状态
-            checkboxes.forEach(checkbox => {
-                checkbox.checked = !allChecked;
-            });
+                
+                const allChecked = Array.from(checkboxes).every(checkbox => checkbox.checked);
+                
+                checkboxes.forEach((checkbox) => {
+                    checkbox.checked = !allChecked;
+                });
+            } catch (error) {
+                console.error('全选记录时出错:', error);
+                showNotification('全选记录失败', 'error');
+            }
         }
 
         // 打开大图查看
-        function openFullSize(imgElement) {
+        function openFullSize(img) {
+            const fullSizeImg = document.getElementById('fullSizeImage');
             const overlay = document.getElementById('overlay');
-            const fullSizeImage = document.getElementById('fullSizeImage');
             
-            // 设置大图的源
-            fullSizeImage.src = imgElement.src;
+            // 如果有保存的原始尺寸，则使用原始尺寸
+            if (img.dataset.fullSize) {
+                fullSizeImg.src = img.dataset.fullSize;
+            } else {
+                fullSizeImg.src = img.src;
+            }
             
             // 显示遮罩层
             overlay.classList.remove('hidden');
+            // 使用 setTimeout 分阶段应用动画效果
             setTimeout(() => {
-                overlay.classList.remove('opacity-0');
+                overlay.classList.add('opacity-100');
             }, 10);
-            
-            // 防止页面滚动
-            document.body.style.overflow = 'hidden';
         }
 
         // 关闭大图查看
         function closeFullSize() {
             const overlay = document.getElementById('overlay');
-            
-            // 隐藏遮罩层
-            overlay.classList.add('opacity-0');
+            overlay.classList.remove('opacity-100');
             setTimeout(() => {
                 overlay.classList.add('hidden');
             }, 300);
-            
-            // 恢复页面滚动
-            document.body.style.overflow = '';
         }
 
         // 打开帮助模态框
@@ -1038,16 +745,12 @@
             const modal = document.getElementById('helpModal');
             const modalContent = document.getElementById('modalContent');
             
-            // 显示模态框
-            modal.classList.remove('opacity-0');
             modal.classList.remove('pointer-events-none');
             setTimeout(() => {
+                modal.classList.add('opacity-100');
                 modalContent.classList.remove('scale-95');
                 modalContent.classList.add('scale-100');
             }, 10);
-            
-            // 防止页面滚动
-            document.body.style.overflow = 'hidden';
         }
 
         // 关闭帮助模态框
@@ -1055,130 +758,13 @@
             const modal = document.getElementById('helpModal');
             const modalContent = document.getElementById('modalContent');
             
-            // 隐藏模态框
-            modalContent.classList.remove
-                        modalContent.classList.remove('scale-100');
+            modal.classList.remove('opacity-100');
+            modalContent.classList.remove('scale-100');
             modalContent.classList.add('scale-95');
+            
             setTimeout(() => {
-                modal.classList.add('opacity-0');
                 modal.classList.add('pointer-events-none');
             }, 300);
-            
-            // 恢复页面滚动
-            document.body.style.overflow = '';
-        }
-
-        // 复制内容到剪贴板
-        function copyToClipboard(text) {
-            navigator.clipboard.writeText(text)
-                .then(() => {
-                    console.log('内容已复制到剪贴板');
-                })
-                .catch(err => {
-                    console.error('复制失败:', err);
-                    // 备用方法
-                    const textarea = document.createElement('textarea');
-                    textarea.value = text;
-                    textarea.style.position = 'fixed';
-                    document.body.appendChild(textarea);
-                    textarea.select();
-                    document.execCommand('copy');
-                    document.body.removeChild(textarea);
-                });
-        }
-
-        // 显示通知
-        function showNotification(message, type = 'info') {
-            const notification = document.getElementById('notification');
-            const notificationTitle = document.getElementById('notificationTitle');
-            const notificationMessage = document.getElementById('notificationMessage');
-            const notificationIcon = document.getElementById('notificationIcon');
-            
-            // 设置通知内容
-            notificationTitle.textContent = getNotificationTitle(type);
-            notificationMessage.textContent = message;
-            
-            // 设置通知图标和颜色
-            notificationIcon.innerHTML = getNotificationIcon(type);
-            notification.className = `fixed bottom-4 right-4 shadow-lg rounded-lg p-4 max-w-sm transform transition-all duration-300 z-50 flex items-center ${getNotificationClass(type)}`;
-            
-            // 显示通知
-            notification.classList.remove('translate-y-20', 'opacity-0');
-            
-            // 清除之前的定时器
-            if (notificationTimer) {
-                clearTimeout(notificationTimer);
-            }
-            
-            // 设置自动隐藏
-            notificationTimer = setTimeout(() => {
-                hideNotification();
-            }, 3000);
-        }
-
-        // 隐藏通知
-        function hideNotification() {
-            const notification = document.getElementById('notification');
-            notification.classList.add('translate-y-20', 'opacity-0');
-        }
-
-        // 获取通知标题
-        function getNotificationTitle(type) {
-            switch(type) {
-                case 'success':
-                    return '成功';
-                case 'error':
-                    return '错误';
-                case 'warning':
-                    return '警告';
-                default:
-                    return '通知';
-            }
-        }
-
-        // 获取通知图标
-        function getNotificationIcon(type) {
-            switch(type) {
-                case 'success':
-                    return '<i class="fa fa-check-circle text-success"></i>';
-                case 'error':
-                    return '<i class="fa fa-times-circle text-danger"></i>';
-                case 'warning':
-                    return '<i class="fa fa-exclamation-triangle text-warning"></i>';
-                default:
-                    return '<i class="fa fa-info-circle text-info"></i>';
-            }
-        }
-
-        // 获取通知样式类
-        function getNotificationClass(type) {
-            switch(type) {
-                case 'success':
-                    return 'bg-success/10 border-l-4 border-success';
-                case 'error':
-                    return 'bg-danger/10 border-l-4 border-danger';
-                case 'warning':
-                    return 'bg-warning/10 border-l-4 border-warning';
-                default:
-                    return 'bg-info/10 border-l-4 border-info';
-            }
-        }
-
-        // 格式化日期时间
-        function formatDateTime(date) {
-            const year = date.getFullYear();
-            const month = String(date.getMonth() + 1).padStart(2, '0');
-            const day = String(date.getDate()).padStart(2, '0');
-            const hours = String(date.getHours()).padStart(2, '0');
-            const minutes = String(date.getMinutes()).padStart(2, '0');
-            const seconds = String(date.getSeconds()).padStart(2, '0');
-            
-            return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
-        }
-
-        // 更新记录计数
-        function updateRecordCount(count) {
-            document.getElementById('recordCount').textContent = `${count} 条记录`;
         }
 
         // 切换主题
@@ -1195,6 +781,107 @@
                 localStorage.setItem('theme', 'dark');
                 themeToggle.innerHTML = '<i class="fa fa-sun-o"></i>';
             }
+        }
+
+        // 复制内容到剪贴板
+        function copyToClipboard(content) {
+            const tempElement = document.createElement('div');
+            tempElement.innerHTML = content;
+            tempElement.style.position = 'absolute';
+            tempElement.style.left = '-9999px';
+            document.body.appendChild(tempElement);
+            
+            // 选中内容
+            const range = document.createRange();
+            range.selectNode(tempElement);
+            window.getSelection().removeAllRanges();
+            window.getSelection().addRange(range);
+            
+            // 复制
+            document.execCommand('copy');
+            
+            // 清理
+            window.getSelection().removeAllRanges();
+            document.body.removeChild(tempElement);
+        }
+
+        // 更新记录计数
+        function updateRecordCount(count) {
+            document.getElementById('recordCount').textContent = `${count} 条记录`;
+        }
+
+        // 格式化时间组件（添加前导零）
+        function formatTimeComponent(value) {
+            return value < 10 ? '0' + value : value;
+        }
+
+        // 监听其他标签页的消息
+        channel.onmessage = function (event) {
+            if (event.data.action === 'updateRecords') {
+                const records = event.data.records;
+                localStorage.setItem('records', JSON.stringify(records));
+                renderRecords(records);
+                updateRecordCount(records.length);
+                
+                // 如果正在编辑的记录被修改或删除，取消编辑状态
+                if (editingRecordIndex !== null && editingRecordIndex >= records.length) {
+                    cancelEdit();
+                }
+            }
+        };
+
+        // 显示通知
+        function showNotification(message, type = 'info') {
+            // 创建通知元素
+            const notification = document.createElement('div');
+            let bgColor, textColor;
+            
+            switch(type) {
+                case 'success':
+                    bgColor = 'bg-success';
+                    textColor = 'text-white';
+                    break;
+                case 'error':
+                    bgColor = 'bg-danger';
+                    textColor = 'text-white';
+                    break;
+                case 'warning':
+                    bgColor = 'bg-warning';
+                    textColor = 'text-gray-800';
+                    break;
+                default:
+                    bgColor = 'bg-primary';
+                    textColor = 'text-white';
+            }
+            
+            notification.className = `${bgColor} ${textColor} fixed top-4 right-4 rounded-lg shadow-lg px-4 py-3 z-50 transform transition-all duration-300 translate-x-full opacity-0 flex items-center`;
+            
+            // 添加图标
+            let iconClass = 'fa-info-circle';
+            if (type === 'success') iconClass = 'fa-check-circle';
+            if (type === 'error') iconClass = 'fa-exclamation-circle';
+            if (type === 'warning') iconClass = 'fa-exclamation-triangle';
+            
+            notification.innerHTML = `
+                <i class="fa ${iconClass} mr-2"></i>
+                <span>${message}</span>
+            `;
+            
+            // 添加到页面
+            document.body.appendChild(notification);
+            
+            // 显示通知
+            setTimeout(() => {
+                notification.classList.remove('translate-x-full', 'opacity-0');
+            }, 10);
+            
+            // 自动关闭
+            setTimeout(() => {
+                notification.classList.add('translate-x-full', 'opacity-0');
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 3000);
         }
     </script>
 </body>
